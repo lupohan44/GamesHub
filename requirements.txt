@@ -1,0 +1,5 @@
+playwright~=1.12.1
+beautifulsoup4~=4.9.3
+telegram~=0.0.1
+lxml~=4.6.3
+asf-ipc~=2.1.0
