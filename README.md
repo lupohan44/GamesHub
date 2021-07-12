@@ -37,7 +37,7 @@ This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/Ste
 1. Playwright does not support CentOS. ([issue](https://github.com/microsoft/playwright/issues/6219))
 
 ## Changelog
-###2021/7/12-2
+### 2021/7/12-2
 1. Fix wrong requirements "telegram"
 2. Support json5 (#2)
 3. Change README.md
@@ -49,7 +49,7 @@ Run
 pip3 uninstall telegram
 ```
 should remove the wrong requirements
-###2021/7/12
+### 2021/7/12
 1. Fix wrong requirements
 2. Change loop delay default value to 600 seconds
 3. Support MarkDown format in telegram notification
@@ -57,5 +57,5 @@ should remove the wrong requirements
 5. Change README.md
 
 **Notice**: This upgrade change config.json
-###2021/7/11
+### 2021/7/11
 1. Initial release
