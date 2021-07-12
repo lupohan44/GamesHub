@@ -10,8 +10,13 @@
   },
   "telegram": {
     "token": "TOKEN_FROM_BOT_FATHER",
-    "chat_id": "CHAT_ID_FROM_API",
-    "notification_format": "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nlink: <a href=\"{steam_url}\" >{game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {end_time}",
+    "chat_id": [
+      "CHAT_ID_FROM_API"
+    ],
+    "format": {
+      "markdown": false,
+      "message": "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nlink: <a href=\"{steam_url}\" >{game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {end_time}\n!redeem asf {sub_id}"
+    },
     "notification_free_type": ["ALL"],
     "delay": 1
   },

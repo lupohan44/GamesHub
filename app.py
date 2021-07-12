@@ -22,6 +22,7 @@ TELEGRAM_REQUIRE_TOKEN_ERROR_MSG = "Cannot get token of telegram from %s!" % CON
 TELEGRAM_REQUIRE_CHAT_ID_ERROR_MSG = "Cannot get chat_id of telegram from %s!" % CONFIG_PATH
 ASF_REQUIRE_IPC_ERROR_MSG = "Cannot get ipc of asf from %s!" % CONFIG_PATH
 AT_LEAST_ENABLE_ONE_FUNCTION_ERROR_MSG = "Both telegram and asf are not enabled!"
+CONFIG_FILE_NEEDS_TO_BE_UPDATED = "%s's format has been changed, please change it accordingly!" % CONFIG_PATH
 GET_PAGE_SOURCE_ERROR_MSG = "Get page source error!"
 
 # log format
@@ -64,9 +65,11 @@ class Telegram:
     def __init__(self):
         self.enable = False
         self.token = ""
-        self.chat_id = ""
-        self.notification_format = "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nlink: <a href=\"{steam_url}\" >{" \
-                                   "game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {end_time} "
+        self.chat_id_list = []
+        self.markdown = False
+        self.notification_message = "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nlink: <a href=\"{steam_url}\" >{" \
+                                    "game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {" \
+                                    "end_time}\n!redeem asf {sub_id} "
         self.notification_free_type = []
         self.delay = 1
 
@@ -82,7 +85,7 @@ class ASF:
 class Config:
     def __init__(self):
         self.loop = True
-        self.loop_delay = 60
+        self.loop_delay = 600
         self.time_format = TimeFormat()
         self.telegram = Telegram()
         self.asf = ASF()
@@ -141,8 +144,10 @@ def send_telegram_notification(msg_list):  # use telegram bot to send message
         try:
             tb = telegram.Bot(config.telegram.token)
             for msg in msg_list:
-                tb.send_message(chat_id=config.telegram.chat_id, text=msg, parse_mode="HTML")
-                time.sleep(config.telegram.delay)
+                for chat_id in config.telegram.chat_id_list:
+                    tb.send_message(chat_id=chat_id, text=msg,
+                                    parse_mode="Markdown" if config.telegram.markdown else "HTML")
+                    time.sleep(config.telegram.delay)
         except Exception as ex:
             logger.error("Send message error!")
             raise ex
@@ -236,10 +241,11 @@ def process_steamdb_result(previous, steamdb_result):
             '''get game details end'''
 
             notification_str = config.telegram. \
-                notification_format.format(game=game_name, sub_id=sub_id, steam_url=steam_url,
-                                           start_time=start_time, end_time=end_time,
-                                           free_type=free_type)
-            if ("ALL" in config.telegram.notification_free_type) or (free_type in config.telegram.notification_free_type):
+                notification_message.format(game=game_name, sub_id=sub_id, steam_url=steam_url,
+                                            start_time=start_time, end_time=end_time,
+                                            free_type=free_type)
+            if ("ALL" in config.telegram.notification_free_type) or (
+                    free_type in config.telegram.notification_free_type):
                 telegram_push_message.append(notification_str)
             if free_type not in config.asf.redeem_type_blacklist:
                 asf_redeem_list.append(sub_id)
@@ -289,10 +295,15 @@ def parse_config():
             raise Exception(TELEGRAM_REQUIRE_TOKEN_ERROR_MSG)
         if "chat_id" not in config_json["telegram"]:
             raise Exception(TELEGRAM_REQUIRE_CHAT_ID_ERROR_MSG)
+        if type(config_json["telegram"]["chat_id"]) != list:
+            raise Exception(CONFIG_FILE_NEEDS_TO_BE_UPDATED)
         config.telegram.token = config_json["telegram"]["token"]
-        config.telegram.chat_id = config_json["telegram"]["chat_id"]
-        if "notification_format" in config_json["telegram"]:
-            config.telegram.notification_format = config_json["telegram"]["notification_format"]
+        config.telegram.chat_id_list = config_json["telegram"]["chat_id"]
+        if "format" in config_json["telegram"]:
+            if "markdown" in config_json["telegram"]["format"]:
+                config.telegram.markdown = config_json["telegram"]["format"]["markdown"]
+            if "message" in config_json["telegram"]["format"]:
+                config.telegram.notification_message = config_json["telegram"]["format"]["message"]
         if "notification_free_type" in config_json["telegram"]:
             config.telegram.notification_free_type = config_json["telegram"]["notification_free_type"]
         if "delay" in config_json["telegram"]:
