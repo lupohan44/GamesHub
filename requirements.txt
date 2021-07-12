@@ -1,5 +1,6 @@
 playwright~=1.12.1
 beautifulsoup4~=4.9.3
-python-telegram-bot~=13.4.1
+python-telegram-bot~=13.7
 lxml~=4.6.3
 asf-ipc~=2.1.0
+json5~=0.9.6

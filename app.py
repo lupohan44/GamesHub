@@ -1,23 +1,23 @@
 import asyncio
 import datetime
-import json
 import logging
 import os
 import selectors
 import time
 from urllib import request
 
-import telegram
+from telegram.ext import Updater
+import json5
 from ASF import IPC
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
 
 '''Static Variables'''
 STEAM_DB_FREE_GAMES_URL = "https://steamdb.info/upcoming/free/"
-CONFIG_PATH = "config.json"
-RECORD_PATH = "record.json"
+CONFIG_PATH = "config.json5"
+RECORD_PATH = "record.json5"
 FIRST_DELAY = 8
-CONFIG_NOT_EXIST_ERROR_MSG = "Cannot read config.json!"
+CONFIG_NOT_EXIST_ERROR_MSG = "Cannot read %s!" % CONFIG_PATH
 TELEGRAM_REQUIRE_TOKEN_ERROR_MSG = "Cannot get token of telegram from %s!" % CONFIG_PATH
 TELEGRAM_REQUIRE_CHAT_ID_ERROR_MSG = "Cannot get chat_id of telegram from %s!" % CONFIG_PATH
 ASF_REQUIRE_IPC_ERROR_MSG = "Cannot get ipc of asf from %s!" % CONFIG_PATH
@@ -99,13 +99,13 @@ def load_json(path, method="r", init_str="{}"):
         with open(path, "w", encoding='utf-8') as f:
             f.write(init_str)
     with open(path, method, encoding='utf-8') as f:
-        data = json.load(f)
+        data = json5.load(f)
     return data
 
 
 def write_json(path, data, method="w"):
     with open(path, method, encoding='utf-8') as f:
-        json.dump(data, f, indent=4)
+        json5.dump(data, f, indent=4)
 
 
 def get_url_single(url, headers=None, decode='utf-8'):
@@ -142,11 +142,11 @@ def playwright_get_url(url, delay=0, headless=True):
 def send_telegram_notification(msg_list):  # use telegram bot to send message
     if len(msg_list) != 0:
         try:
-            tb = telegram.Bot(config.telegram.token)
+            tb = Updater(config.telegram.token)
             for msg in msg_list:
                 for chat_id in config.telegram.chat_id_list:
-                    tb.send_message(chat_id=chat_id, text=msg,
-                                    parse_mode="Markdown" if config.telegram.markdown else "HTML")
+                    tb.bot.send_message(chat_id=chat_id, text=msg,
+                                        parse_mode="Markdown" if config.telegram.markdown else "HTML")
                     time.sleep(config.telegram.delay)
         except Exception as ex:
             logger.error("Send message error!")
