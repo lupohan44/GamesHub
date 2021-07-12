@@ -36,7 +36,7 @@ This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/Ste
 ## Config.json
 
 Notice: **DO NOT** copy paste from below
-```json
+```json5
 {
   "loop": true,
   "loop_delay": 600,
