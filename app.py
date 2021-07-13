@@ -69,7 +69,7 @@ class Telegram:
         self.markdown = False
         self.notification_message = "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nlink: <a href=\"{steam_url}\" >{" \
                                     "game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {" \
-                                    "end_time}\n!redeem asf {sub_id} "
+                                    "end_time}\n!addlicense asf {sub_id} "
         self.notification_free_type = []
         self.delay = 1
 

@@ -25,7 +25,7 @@ This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/Ste
 2. Install requirements
    ```shell
    pip3 install -r requirements.txt
-   playwright install
+   playwright install || python3 -m playwright install
    ```
 3. Copy [config.example.json5](config.example.json5) to config.json5, change settings in it according to the comment.
 4. Run
@@ -36,26 +36,4 @@ This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/Ste
 ## Known issue
 1. Playwright does not support CentOS. ([issue](https://github.com/microsoft/playwright/issues/6219))
 
-## Changelog
-### 2021/7/12-2
-1. Fix wrong requirements "telegram"
-2. Support json5 (#2)
-3. Change README.md
-
-**Notice**: This upgrade change config.json to config.json5 and change record.json to record.json5
-
-Run
-```shell
-pip3 uninstall telegram
-```
-should remove the wrong requirements
-### 2021/7/12
-1. Fix wrong requirements
-2. Change loop delay default value to 600 seconds
-3. Support MarkDown format in telegram notification
-4. Support multiple chat_id in telegram
-5. Change README.md
-
-**Notice**: This upgrade change config.json
-### 2021/7/11
-1. Initial release
+## [Changelog](ChangeLog.md)

@@ -18,7 +18,7 @@
     ],
     "format": {
       "markdown": false,
-      "message": "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nlink: <a href=\"{steam_url}\" >{game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {end_time}\n!redeem asf {sub_id}"
+      "message": "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nlink: <a href=\"{steam_url}\" >{game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {end_time}\n!addlicense asf {sub_id}"
     },
     // "ALL" will include all free types
     "notification_free_type": ["ALL"],
