@@ -1,18 +1,26 @@
 # Changelog
-## 2021/7/17
+## 1.0.0
+
+### 2021/7/18
+1. Add update checking
+2. Isolate static variables
+3. Add banner
+
+### 2021/7/17
 1. Support docker (#1)
 2. Increase wait time for cloudflare redirect to enhance stability
-3. Change README.md
 
-## 2021/7/13
+### 2021/7/13
 1. Fix wrong command in default telegram notify message (#3)
 2. Separate changelog from README.md (No one care about changelog)
-3. Change README.md
 
-## 2021/7/12-2
-1. Fix wrong requirements "telegram"
-2. Support json5 (#2)
-3. Change README.md
+### 2021/7/12
+1. Fix wrong requirements
+2. Change loop delay default value to 600 seconds
+3. Support MarkDown format in telegram notification
+4. Support multiple chat_id in telegram
+5. Fix wrong requirements "telegram"
+6. Support json5 (#2)
 
 **Notice**: This upgrade change config.json to config.json5 and change record.json to record.json5
 
@@ -22,13 +30,5 @@ pip3 uninstall telegram
 ```
 should remove the wrong requirements
 
-## 2021/7/12
-1. Fix wrong requirements
-2. Change loop delay default value to 600 seconds
-3. Support MarkDown format in telegram notification
-4. Support multiple chat_id in telegram
-5. Change README.md
-
-**Notice**: This upgrade change config.json
-## 2021/7/11
+### 2021/7/11
 1. Initial release

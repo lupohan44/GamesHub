@@ -11,24 +11,7 @@ import json5
 from ASF import IPC
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
-
-'''Static Variables'''
-STEAM_DB_FREE_GAMES_URL = "https://steamdb.info/upcoming/free/"
-CONFIG_PATH = "config.json5"
-RECORD_PATH = "record.json5"
-FIRST_DELAY = 15
-CONFIG_NOT_EXIST_ERROR_MSG = "Cannot read %s!" % CONFIG_PATH
-TELEGRAM_REQUIRE_TOKEN_ERROR_MSG = "Cannot get token of telegram from %s!" % CONFIG_PATH
-TELEGRAM_REQUIRE_CHAT_ID_ERROR_MSG = "Cannot get chat_id of telegram from %s!" % CONFIG_PATH
-ASF_REQUIRE_IPC_ERROR_MSG = "Cannot get ipc of asf from %s!" % CONFIG_PATH
-AT_LEAST_ENABLE_ONE_FUNCTION_ERROR_MSG = "Both telegram and asf are not enabled!"
-CONFIG_FILE_NEEDS_TO_BE_UPDATED = "%s's format has been changed, please change it accordingly!" % CONFIG_PATH
-GET_PAGE_SOURCE_ERROR_MSG = "Get page source error!"
-
-# log format
-LOG_FORMAT = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-LOG_FORMAT_WITHOUT_LEVEL_NAME = logging.Formatter('%(asctime)s - %(name)s - %(message)s')
-'''Static Variables END'''
+from static import *
 
 '''Global Variables'''
 # the root logger
@@ -112,10 +95,7 @@ def get_url_single(url, headers=None, decode='utf-8'):
     if headers is not None:
         HTTP_HEADER.update(headers)
     req = request.Request(url, headers=HTTP_HEADER)
-    if "https" in url:
-        response = request.urlopen(req)
-    else:
-        response = request.urlopen(req)
+    response = request.urlopen(req)
     html = response.read().decode(decode)
     soup = BeautifulSoup(html, 'lxml')
 
@@ -319,8 +299,31 @@ def parse_config():
             config.asf.redeem_type_blacklist = config_json["asf"]["redeem_type_blacklist"]
 
 
+def check_update():
+    logger.info("Checking for update...")
+    local_version = VERSION
+    try:
+        github_version = {"VERSION": ""}
+        req = request.Request(GITHUB_VERSION_URL)
+        response = request.urlopen(req)
+        github_version_py = response.read().decode('utf-8')
+        exec(github_version_py, github_version)
+        if github_version["VERSION"] != local_version:
+            logger.warning(FOUND_NEW_VERSION_WARNING_MSG % github_version["VERSION"])
+            logger.warning(GITHUB_URL)
+        else:
+            logger.info(NO_NEW_VERSION_MSG)
+    except:
+        logger.warning(CANNOT_CHECK_UPDATE_WARNING_MSG)
+
+
 def main():
-    logger.info("------------------- Start job -------------------")
+    logger.info("#####################################################################################")
+    logger.info("################################# SteamDBFreeGamesClaimer ###########################")
+    logger.info("#################################### Author: lupohan44 ##############################")
+    logger.info("###################################### Version: %s ###############################" % VERSION)
+    logger.info("#####################################################################################")
+    check_update()
     while config.loop:
         parse_config()
         if (not config.telegram.enable) and (not config.asf.enable):
