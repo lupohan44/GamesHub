@@ -1,8 +1,13 @@
 # Changelog
+## 2021/7/17
+1. Support docker (#1)
+2. Increase wait time for cloudflare redirect to enhance stability
+3. Change README.md
+
 ## 2021/7/13
 1. Fix wrong command in default telegram notify message (#3)
 2. Separate changelog from README.md (No one care about changelog)
-3. Modify README.md
+3. Change README.md
 
 ## 2021/7/12-2
 1. Fix wrong requirements "telegram"

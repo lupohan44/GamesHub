@@ -16,7 +16,7 @@ from playwright.sync_api import sync_playwright
 STEAM_DB_FREE_GAMES_URL = "https://steamdb.info/upcoming/free/"
 CONFIG_PATH = "config.json5"
 RECORD_PATH = "record.json5"
-FIRST_DELAY = 8
+FIRST_DELAY = 15
 CONFIG_NOT_EXIST_ERROR_MSG = "Cannot read %s!" % CONFIG_PATH
 TELEGRAM_REQUIRE_TOKEN_ERROR_MSG = "Cannot get token of telegram from %s!" % CONFIG_PATH
 TELEGRAM_REQUIRE_CHAT_ID_ERROR_MSG = "Cannot get chat_id of telegram from %s!" % CONFIG_PATH
