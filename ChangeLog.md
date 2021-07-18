@@ -1,4 +1,9 @@
 # Changelog
+## 1.1.0
+1. Use SQLite to store records
+2. Fix "loop" setting not working
+3. Enhance version compare
+
 ## 1.0.1
 1. Always redeem games since free might not begin yet
 2. Increase loop delay time

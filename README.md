@@ -17,9 +17,7 @@ This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/Ste
 ## Requirements
 
 - python3
-  - playwright
-  - bs4(lxml)
-  - python-telegram-bot
+  - [requirements.txt](requirements.txt)
 
 ## Usage
 ### Direct run

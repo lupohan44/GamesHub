@@ -1,6 +1,5 @@
 import asyncio
 import datetime
-import logging
 import os
 import selectors
 import time
@@ -10,7 +9,9 @@ from telegram.ext import Updater
 import json5
 from ASF import IPC
 from bs4 import BeautifulSoup
+from packaging import version
 from playwright.sync_api import sync_playwright
+from peewee import *
 from static import *
 
 '''Global Variables'''
@@ -34,6 +35,8 @@ logger.addHandler(s_handler)
 logger.name = "SteamDBFreeGamesClaimer"
 
 HTTP_HEADER = dict({})
+
+db = SqliteDatabase(RECORD_PATH)
 '''Global Variables END'''
 
 
@@ -74,7 +77,35 @@ class Config:
         self.asf = ASF()
 
 
+class GameRecord(Model):
+    game_name = CharField()
+    sub_id = CharField()  # IntegerField() might be better
+    steam_url = CharField()
+    start_time = TimeField()
+    end_time = TimeField()
+
+    class Meta:
+        database = db
+
+
 config = Config()
+
+
+def save_game_records_to_db(games):
+    if db.is_closed():
+        db.connect()
+    for game in games:
+        game.save()
+
+
+def get_game_record_from_db(game_name, start_time, end_time):
+    if db.is_closed():
+        db.connect()
+    game = GameRecord.select().where(GameRecord.game_name == game_name and GameRecord.start_time == start_time
+                                     and GameRecord.end_time == end_time)
+    if len(game) != 0:
+        return game
+    return None
 
 
 def load_json(path, method="r", init_str="{}"):
@@ -142,7 +173,7 @@ def format_time(utc):  # format time
     utc_format = "%Y-%m-%dT%H:%M:%S+00:00"
     utc_date = datetime.datetime.strptime(utc, utc_format)
     cst_date = utc_date + datetime.timedelta(hours=config.time_format.utc_offset)
-    return cst_date.strftime(config.time_format.format_str)
+    return utc_date, cst_date.strftime(config.time_format.format_str)
 
 
 async def command(cmd):
@@ -152,8 +183,8 @@ async def command(cmd):
         })
 
 
-def process_steamdb_result(previous, steamdb_result):
-    result = list([])
+def process_steamdb_result(steamdb_result):
+    game_records = list([])
     telegram_push_message = list([])
     asf_redeem_list = list([])
 
@@ -163,27 +194,29 @@ def process_steamdb_result(previous, steamdb_result):
             continue
 
         tds = each_tr.find_all("td")
+        start_datetime = datetime.datetime(year=2020, month=1, day=1)
+        end_datetime = datetime.datetime(year=2020, month=1, day=1)
         '''get basic info'''
         if len(tds) == 5:  # steamdb add a install button in table column
             free_type = tds[2].contents[0]
-            start_time = str(tds[3].get("data-time"))
-            end_time = str(tds[4].get("data-time"))
+            start_time_str = str(tds[3].get("data-time"))
+            end_time_str = str(tds[4].get("data-time"))
         else:
             if len(tds[3].contents) == 1:
                 free_type = tds[3].contents[0]
             else:
                 free_type = tds[3].contents[2].contents[0] + "Forever"
-            start_time = str(tds[4].get("data-time"))
-            end_time = str(tds[5].get("data-time"))
+            start_time_str = str(tds[4].get("data-time"))
+            end_time_str = str(tds[5].get("data-time"))
 
-        if start_time == str(None):
-            start_time = "None"
+        if start_time_str == str(None):
+            start_time_str = "N/A"
         else:
-            start_time = format_time(start_time)
-        if end_time == str(None):
-            end_time = "None"
+            start_datetime, start_time_str = format_time(start_time_str)
+        if end_time_str == str(None):
+            end_time_str = "N/A"
         else:
-            end_time = format_time(end_time)
+            end_datetime, end_time_str = format_time(end_time_str)
 
         game_name = str(tds[1].find("b").contents[0])
         sub_id = str(tds[1].contents[1].get('href').split('/')[2])
@@ -193,17 +226,13 @@ def process_steamdb_result(previous, steamdb_result):
 
         logger.info("Found free game: " + game_name)
         # record information
-        result.append({
-            "Name": game_name,
-            "ID": sub_id,
-            "URL": steam_url,
-            "Start_time": start_time,
-            "End_time": end_time,
-        })
 
         '''new free games notify'''
         # check if this game exists in previous records
-        if not any(each.get('ID') == sub_id and start_time == each["Start_time"] for each in previous):
+        if get_game_record_from_db(game_name, start_datetime, end_datetime) is None:
+            game_records.append(GameRecord(game_name=game_name, sub_id=sub_id, steam_url=steam_url,
+                                           start_time=start_datetime, end_time=end_datetime))
+            # new free game
             '''get game details'''
             # try to get game's name on Steam store page
             steam_soup = get_url_single(url=steam_url)
@@ -214,7 +243,7 @@ def process_steamdb_result(previous, steamdb_result):
 
             notification_str = config.telegram. \
                 notification_message.format(game=game_name, sub_id=sub_id, steam_url=steam_url,
-                                            start_time=start_time, end_time=end_time,
+                                            start_time=start_time_str, end_time=end_time_str,
                                             free_type=free_type)
             if ("ALL" in config.telegram.notification_free_type) or (
                     free_type in config.telegram.notification_free_type):
@@ -237,9 +266,9 @@ def process_steamdb_result(previous, steamdb_result):
             loop.close()
 
     # refresh the record
-    if len(result) > 0:
+    if len(game_records) > 0:
         logger.info("Writing records...")
-        record(RECORD_PATH, result)
+        save_game_records_to_db(game_records)
     else:
         logger.info("No records were written!")
 
@@ -250,8 +279,8 @@ def parse_config():
         raise Exception(CONFIG_NOT_EXIST_ERROR_MSG)
 
     config_json = load_json(CONFIG_PATH)
-    if "loop" in config_json and config_json["loop"]:
-        config.loop = True
+    if "loop" in config_json:
+        config.loop = config_json["loop"]
     if "loop_delay" in config_json:
         config.loop_delay = config_json["loop_delay"]
 
@@ -301,7 +330,7 @@ def check_update():
         response = request.urlopen(req)
         github_version_py = response.read().decode('utf-8')
         exec(github_version_py, github_version)
-        if github_version["VERSION"] != local_version:
+        if version.parse(local_version) < version.parse(github_version["VERSION"]):
             logger.warning(FOUND_NEW_VERSION_WARNING_MSG % github_version["VERSION"])
             logger.warning(GITHUB_URL)
         else:
@@ -317,21 +346,20 @@ def main():
     logger.info("###################################### Version: %s ###############################" % VERSION)
     logger.info("#####################################################################################")
     check_update()
+    db.create_tables([GameRecord])
     while config.loop:
         parse_config()
         if (not config.telegram.enable) and (not config.asf.enable):
             raise Exception(AT_LEAST_ENABLE_ONE_FUNCTION_ERROR_MSG)
-
-        logger.info("Loading previous records...")
-        previous = load_json(path=RECORD_PATH, init_str="[]")
 
         logger.info("Loading steamdb page...")
         html = playwright_get_url(url=STEAM_DB_FREE_GAMES_URL, delay=FIRST_DELAY, headless=True)
 
         # start analysing page source
         logger.info("Start processing steamdb data...")
-        process_steamdb_result(previous=previous, steamdb_result=html)
+        process_steamdb_result(steamdb_result=html)
         if config.loop:
+            logger.info("Sleep %s seconds till next loop..." % config.loop_delay)
             time.sleep(config.loop_delay)
 
 

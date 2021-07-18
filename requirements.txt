@@ -4,3 +4,5 @@ python-telegram-bot~=13.7
 lxml~=4.6.3
 asf-ipc~=2.1.0
 json5~=0.9.6
+peewee~=3.14.4
+packaging~=21.0
