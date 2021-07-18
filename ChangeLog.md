@@ -1,4 +1,9 @@
 # Changelog
+## 1.0.1
+1. Always redeem games since free might not begin yet
+2. Increase loop delay time
+3. Merge upstream changes(https://github.com/azhuge233/SteamDB-FreeGames)
+
 ## 1.0.0
 
 ### 2021/7/18

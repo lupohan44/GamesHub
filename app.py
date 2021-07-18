@@ -68,7 +68,7 @@ class ASF:
 class Config:
     def __init__(self):
         self.loop = True
-        self.loop_delay = 600
+        self.loop_delay = 3000
         self.time_format = TimeFormat()
         self.telegram = Telegram()
         self.asf = ASF()
@@ -163,10 +163,8 @@ def process_steamdb_result(previous, steamdb_result):
             continue
 
         tds = each_tr.find_all("td")
-        td_len = len(tds)
-
         '''get basic info'''
-        if td_len == 5:  # steamdb add a install button in table column
+        if len(tds) == 5:  # steamdb add a install button in table column
             free_type = tds[2].contents[0]
             start_time = str(tds[3].get("data-time"))
             end_time = str(tds[4].get("data-time"))
@@ -195,23 +193,17 @@ def process_steamdb_result(previous, steamdb_result):
 
         logger.info("Found free game: " + game_name)
         # record information
-        d = dict({})
-        d["Name"] = game_name
-        d["ID"] = sub_id
-        d["URL"] = steam_url
-        d["Start_time"] = start_time
-        d["End_time"] = end_time
-        result.append(d)
+        result.append({
+            "Name": game_name,
+            "ID": sub_id,
+            "URL": steam_url,
+            "Start_time": start_time,
+            "End_time": end_time,
+        })
 
         '''new free games notify'''
         # check if this game exists in previous records
-        is_new_game = True
-        for each in previous:
-            if sub_id == each["ID"] and start_time == each["Start_time"]:
-                is_new_game = False
-                break
-
-        if is_new_game:
+        if not any(each.get('ID') == sub_id and start_time == each["Start_time"] for each in previous):
             '''get game details'''
             # try to get game's name on Steam store page
             steam_soup = get_url_single(url=steam_url)
@@ -227,8 +219,9 @@ def process_steamdb_result(previous, steamdb_result):
             if ("ALL" in config.telegram.notification_free_type) or (
                     free_type in config.telegram.notification_free_type):
                 telegram_push_message.append(notification_str)
-            if free_type not in config.asf.redeem_type_blacklist:
-                asf_redeem_list.append(sub_id)
+        # always redeem free games
+        if free_type not in config.asf.redeem_type_blacklist:
+            asf_redeem_list.append(sub_id)
 
     # do the telegram notify job
     if config.telegram.enable:
