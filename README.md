@@ -40,18 +40,18 @@ This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/Ste
    python3 app.py
    ```
 ### Docker (For Linux only)
-1. Clone repository
+1. Create a folder for record and config, let's say folder name is folder
    ```shell
-   git clone https://github.com/lupohan44/SteamDBFreeGamesClaimer.git
+   export STEAM_DB_FOLDER_NAME=folder
+   mkdir -p "$STEAM_DB_FOLDER_NAME"
    ```
-2. Go into SteamDBFreeGamesClaimer directory
+2. Download [config.example.json5](config.example.json5) and rename to config.json5 into the folder created in step 1, change settings in it according to the comment.
    ```shell
-   cd SteamDBFreeGamesClaimer
+   wget -c "https://raw.githubusercontent.com/lupohan44/SteamDBFreeGamesClaimer/main/config.example.json5" -O "$STEAM_DB_FOLDER_NAME/config.json5" || curl -o "$STEAM_DB_FOLDER_NAME/config.json5" "https://raw.githubusercontent.com/lupohan44/SteamDBFreeGamesClaimer/main/config.example.json5"
    ```
-3. Copy [config.example.json5](config.example.json5) to config.json5, change settings in it according to the comment.
-4. Run with docker
+3. Run with docker
    ```shell
-   docker pull lupohan44/steamdb_free_games_claimer:latest && docker run -v $PWD:/home/SteamDBFreeGamesClaimer --rm lupohan44/steamdb_free_games_claimer:latest
+   docker pull lupohan44/steamdb_free_games_claimer:latest && docker run -v $STEAM_DB_FOLDER_NAME:/home/wd --rm lupohan44/steamdb_free_games_claimer:latest
    ```
    All changes by script inside docker will be permanently save to this folder.
 

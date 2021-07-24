@@ -3,6 +3,7 @@
 1. Use SQLite to store records
 2. Fix "loop" setting not working
 3. Enhance version compare
+4. Enhance docker
 
 ## 1.0.1
 1. Always redeem games since free might not begin yet

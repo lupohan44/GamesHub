@@ -1,10 +1,7 @@
 FROM mcr.microsoft.com/playwright:focal
+  
+RUN rm -rf ms-playwright/chromium* ms-playwright/firefox*
+RUN cd home && git clone https://github.com/lupohan44/SteamDBFreeGamesClaimer
+RUN cd /home/SteamDBFreeGamesClaimer && pip3 install -r requirements.txt
 
-RUN apt-get update && apt-get install -y wget
-RUN mkdir docker_tmp
-RUN cd docker_tmp
-RUN wget "https://raw.githubusercontent.com/lupohan44/SteamDBFreeGamesClaimer/main/requirements.txt"
-RUN pip3 install -r requirements.txt
-RUN cd .. && rm -rf docker_tmp
-
-ENTRYPOINT cd /home/SteamDBFreeGamesClaimer && python3 app.py
+ENTRYPOINT cd /home/wd && python3 /home/SteamDBFreeGamesClaimer/app.py
