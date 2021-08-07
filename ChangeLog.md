@@ -1,4 +1,11 @@
 # Changelog
+## 1.1.1
+1. Remove default telegram message from source code
+2. Change example telegram message
+3. Add check update option in config
+4. Add variable {steamdb_url} in telegram message
+5. Remove unused code
+
 ## 1.1.0
 1. Use SQLite to store records
 2. Fix "loop" setting not working

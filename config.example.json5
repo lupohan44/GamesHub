@@ -1,4 +1,12 @@
 {
+  "update": {
+    "check_update": true,
+    /* Support startup and loop
+     * startup: only check update when script begin
+     * loop: check update each time script query from SteamDB
+     */
+    "check_update_when": "startup"
+  },
   "loop": true,
   "loop_delay": 3000,
   "headers": {
@@ -18,7 +26,7 @@
     ],
     "format": {
       "markdown": false,
-      "message": "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nlink: <a href=\"{steam_url}\" >{game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {end_time}\n!addlicense asf {sub_id}"
+      "message": "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nSteam Url: <a href=\"{steam_url}\">{game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {end_time}\nSteamDB Url: <a href=\"{steamdb_url}\">{steamdb_url}</a>\n!addlicense asf {sub_id}"
     },
     // "ALL" will include all free types
     "notification_free_type": ["ALL"],

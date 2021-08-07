@@ -4,6 +4,7 @@ import os
 import selectors
 import time
 from urllib import request
+from urllib.parse import urljoin
 
 from telegram.ext import Updater
 import json5
@@ -41,6 +42,12 @@ db = SqliteDatabase(RECORD_PATH)
 
 
 # class define
+class UpdateChecking:
+    def __init__(self):
+        self.enable = True
+        self.check_update_when = "startup"
+
+
 class TimeFormat:
     def __init__(self):
         self.utc_offset = 0
@@ -53,9 +60,7 @@ class Telegram:
         self.token = ""
         self.chat_id_list = []
         self.markdown = False
-        self.notification_message = "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nlink: <a href=\"{steam_url}\" >{" \
-                                    "game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {" \
-                                    "end_time}\n!addlicense asf {sub_id} "
+        self.notification_message = ""
         self.notification_free_type = []
         self.delay = 1
 
@@ -70,6 +75,7 @@ class ASF:
 
 class Config:
     def __init__(self):
+        self.update_checking = UpdateChecking()
         self.loop = True
         self.loop_delay = 3000
         self.time_format = TimeFormat()
@@ -192,22 +198,19 @@ def process_steamdb_result(steamdb_result):
     for each_tr in steamdb_result.select(".app"):
         if "hidden" in each_tr.attrs.keys():
             continue
+        steamdb_url = "N/A"
 
         tds = each_tr.find_all("td")
         start_datetime = datetime.datetime(year=2020, month=1, day=1)
         end_datetime = datetime.datetime(year=2020, month=1, day=1)
         '''get basic info'''
-        if len(tds) == 5:  # steamdb add a install button in table column
-            free_type = tds[2].contents[0]
-            start_time_str = str(tds[3].get("data-time"))
-            end_time_str = str(tds[4].get("data-time"))
+        if len(tds[3].contents) == 1:
+            free_type = tds[3].contents[0]
         else:
-            if len(tds[3].contents) == 1:
-                free_type = tds[3].contents[0]
-            else:
-                free_type = tds[3].contents[2].contents[0] + "Forever"
-            start_time_str = str(tds[4].get("data-time"))
-            end_time_str = str(tds[5].get("data-time"))
+            free_type = tds[3].contents[2].contents[0] + "Forever"
+        start_time_str = str(tds[4].get("data-time"))
+        end_time_str = str(tds[5].get("data-time"))
+        steamdb_url = urljoin(STEAM_DB_FREE_GAMES_URL, str(tds[1].contents[1].get("href")))
 
         if start_time_str == str(None):
             start_time_str = "N/A"
@@ -244,7 +247,7 @@ def process_steamdb_result(steamdb_result):
             notification_str = config.telegram. \
                 notification_message.format(game=game_name, sub_id=sub_id, steam_url=steam_url,
                                             start_time=start_time_str, end_time=end_time_str,
-                                            free_type=free_type)
+                                            free_type=free_type, steamdb_url=steamdb_url)
             if ("ALL" in config.telegram.notification_free_type) or (
                     free_type in config.telegram.notification_free_type):
                 telegram_push_message.append(notification_str)
@@ -279,6 +282,11 @@ def parse_config():
         raise Exception(CONFIG_NOT_EXIST_ERROR_MSG)
 
     config_json = load_json(CONFIG_PATH)
+    if "update" in config_json:
+        if "check_update" in config_json["update"]:
+            config.update_checking.enable = config_json["update"]["check_update"]
+        if "check_update_when" in config_json["update"]:
+            config.update_checking.check_update_when = config_json["update"]["check_update_when"]
     if "loop" in config_json:
         config.loop = config_json["loop"]
     if "loop_delay" in config_json:
@@ -345,10 +353,14 @@ def main():
     logger.info("#################################### Author: lupohan44 ##############################")
     logger.info("###################################### Version: %s ###############################" % VERSION)
     logger.info("#####################################################################################")
-    check_update()
+    parse_config()
+    if config.update_checking.enable and config.update_checking.check_update_when == "startup":
+        check_update()
     db.create_tables([GameRecord])
     while config.loop:
         parse_config()
+        if config.update_checking.enable and config.update_checking.check_update_when == "loop":
+            check_update()
         if (not config.telegram.enable) and (not config.asf.enable):
             raise Exception(AT_LEAST_ENABLE_ONE_FUNCTION_ERROR_MSG)
 
