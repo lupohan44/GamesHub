@@ -40,9 +40,11 @@ This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/Ste
    python3 app.py
    ```
 ### Docker (For Linux only)
-1. Create a folder for record and config, let's say folder name is folder
+1. Create a folder for record and config, let's say folder name is /var/SteamDBFreeGamesClaimer
+
+_Please note that this folder name must be absolute path._
    ```shell
-   export STEAM_DB_FOLDER_NAME=folder
+   export STEAM_DB_FOLDER_NAME=/var/SteamDBFreeGamesClaimer
    mkdir -p "$STEAM_DB_FOLDER_NAME"
    ```
 2. Download [config.example.json5](config.example.json5) and rename to config.json5 into the folder created in step 1, change settings in it according to the comment.

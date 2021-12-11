@@ -1,4 +1,8 @@
 # Changelog
+## 1.2.0
+1. Supports new SteamDB website structure
+2. Fix docker not working properly
+
 ## 1.1.1
 1. Remove default telegram message from source code
 2. Change example telegram message

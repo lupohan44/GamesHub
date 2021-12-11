@@ -204,13 +204,14 @@ def process_steamdb_result(steamdb_result):
         start_datetime = datetime.datetime(year=2020, month=1, day=1)
         end_datetime = datetime.datetime(year=2020, month=1, day=1)
         '''get basic info'''
-        if len(tds[3].contents) == 1:
-            free_type = tds[3].contents[0]
+        tds_length = len(tds)
+        if len(tds[tds_length - 3].contents) == 1:
+            free_type = tds[tds_length - 3].contents[0]
         else:
-            free_type = tds[3].contents[2].contents[0] + "Forever"
-        start_time_str = str(tds[4].get("data-time"))
-        end_time_str = str(tds[5].get("data-time"))
-        steamdb_url = urljoin(STEAM_DB_FREE_GAMES_URL, str(tds[1].contents[1].get("href")))
+            free_type = tds[tds_length - 3].contents[2].contents[0] + "Forever"
+        start_time_str = str(tds[tds_length - 2].get("data-time"))
+        end_time_str = str(tds[tds_length - 1].get("data-time"))
+        steamdb_url = urljoin(STEAM_DB_FREE_GAMES_URL, str(tds[tds_length - 5].contents[1].get("href")))
 
         if start_time_str == str(None):
             start_time_str = "N/A"
@@ -221,10 +222,10 @@ def process_steamdb_result(steamdb_result):
         else:
             end_datetime, end_time_str = format_time(end_time_str)
 
-        game_name = str(tds[1].find("b").contents[0])
-        sub_id = str(tds[1].contents[1].get('href').split('/')[2])
+        game_name = str(tds[tds_length - 5].find("b").contents[0])
+        sub_id = str(tds[tds_length - 5].contents[1].get('href').split('/')[2])
         # remove the url variables
-        steam_url = str(tds[0].contents[1].get('href')).split("?")[0]
+        steam_url = str(tds[tds_length - 6].contents[1].get('href')).split("?")[0]
         '''get basic info end'''
 
         logger.info("Found free game: " + game_name)
@@ -260,13 +261,15 @@ def process_steamdb_result(steamdb_result):
         send_telegram_notification(telegram_push_message)
     # redeem in ASF
     if config.asf.enable:
+        loop = None
         sub_ids_str = ','.join(asf_redeem_list)
         try:
             selector = selectors.SelectSelector()
             loop = asyncio.SelectorEventLoop(selector)
             loop.run_until_complete(command("!addlicense asf %s" % sub_ids_str))
         finally:
-            loop.close()
+            if loop is not None:
+                loop.close()
 
     # refresh the record
     if len(game_records) > 0:
