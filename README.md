@@ -2,7 +2,7 @@
 
 [![project](https://img.shields.io/badge/lupohan44-SteamDBFreeGamesClaimer-brightgreen)](https://github.com/lupohan44/SteamDBFreeGamesClaimer) [![GitHub license](https://img.shields.io/github/license/lupohan44/SteamDBFreeGamesClaimer)](https://github.com/lupohan44/SteamDBFreeGamesClaimer/blob/main/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/lupohan44/SteamDBFreeGamesClaimer)](https://github.com/lupohan44/SteamDBFreeGamesClaimer/stargazers)
 
-[![docker](https://img.shields.io/badge/Docker-lupohan44%2Fsteamdb__free__games__claimer-blue?logo=docker)](https://hub.docker.com/r/lupohan44/steamdb_free_games_claimer) [![Build Status](https://api.travis-ci.com/lupohan44/SteamDBFreeGamesClaimer.svg)](https://travis-ci.com/lupohan44/SteamDBFreeGamesClaimer)
+[![docker](https://img.shields.io/badge/Docker-lupohan44%2Fsteamdb__free__games__claimer-blue?logo=docker)](https://hub.docker.com/r/lupohan44/steamdb_free_games_claimer) [![Build Status](https://api.travis-ci.com/lupohan44/SteamDBFreeGamesClaimer.svg)](https://travis-ci.com/github/lupohan44/SteamDBFreeGamesClaimer)
 
 This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/SteamDB-FreeGames)
 
