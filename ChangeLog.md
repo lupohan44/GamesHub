@@ -1,7 +1,7 @@
 # Changelog
 ## 1.2.0
 1. Supports new SteamDB website structure
-2. Fix docker not working properly ([#6][i6])
+2. Fix docker not working properly ([#6](/../../issues/6))
 3. Fix broken links in ChangeLog
 
 ## 1.1.1
@@ -30,11 +30,11 @@
 3. Add banner
 
 ### 2021/7/17
-1. Support docker ([#1][i1])
+1. Support docker ([#1](/../../issues/1))
 2. Increase wait time for cloudflare redirect to enhance stability
 
 ### 2021/7/13
-1. Fix wrong command in default telegram notify message ([#3][i3])
+1. Fix wrong command in default telegram notify message ([#3](/../../issues/13))
 2. Separate changelog from README.md (No one care about changelog)
 
 ### 2021/7/12
@@ -43,7 +43,7 @@
 3. Support MarkDown format in telegram notification
 4. Support multiple chat_id in telegram
 5. Fix wrong requirements "telegram"
-6. Support json5 ([#2][i2])
+6. Support json5 ([#2](/../../issues/2))
 
 **Notice**: This upgrade change config.json to config.json5 and change record.json to record.json5
 
