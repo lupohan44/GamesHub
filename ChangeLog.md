@@ -1,4 +1,7 @@
 # Changelog
+## 1.2.1
+1. Added bot whitelist ([#9](/../../pull/9))
+
 ## 1.2.0
 1. Supports new SteamDB website structure
 2. Fix docker not working properly ([#6](/../../issues/6))

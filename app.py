@@ -264,10 +264,10 @@ def process_steamdb_result(steamdb_result):
     if config.asf.enable:
         loop = None
         sub_ids_str = ','.join(asf_redeem_list)
-		if config.asf.bot_whitelist:
-		    bots_str = ','.join(config.asf.bot_whitelist)
-		else:
-		    bots_str = "asf"
+        if config.asf.bot_whitelist:
+            bots_str = ','.join(config.asf.bot_whitelist)
+        else:
+            bots_str = "asf"
         try:
             selector = selectors.SelectSelector()
             loop = asyncio.SelectorEventLoop(selector)
