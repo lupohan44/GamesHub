@@ -71,6 +71,7 @@ class ASF:
         self.ipc = ""
         self.password = ""
         self.redeem_type_blacklist = []
+        self.bot_whitelist = []
 
 
 class Config:
@@ -263,10 +264,14 @@ def process_steamdb_result(steamdb_result):
     if config.asf.enable:
         loop = None
         sub_ids_str = ','.join(asf_redeem_list)
+		if config.asf.bot_whitelist:
+		    bots_str = ','.join(config.asf.bot_whitelist)
+		else:
+		    bots_str = "asf"
         try:
             selector = selectors.SelectSelector()
             loop = asyncio.SelectorEventLoop(selector)
-            loop.run_until_complete(command("!addlicense asf %s" % sub_ids_str))
+            loop.run_until_complete(command("!addlicense %s %s" % (bots_str, sub_ids_str)))
         finally:
             if loop is not None:
                 loop.close()
@@ -330,6 +335,8 @@ def parse_config():
             config.asf.password = config_json["asf"]["ipc_password"]
         if "redeem_type_blacklist" in config_json["asf"]:
             config.asf.redeem_type_blacklist = config_json["asf"]["redeem_type_blacklist"]
+        if "bot_whitelist" in config_json["asf"]:
+            config.asf.bot_whitelist = config_json["asf"]["bot_whitelist"]
 
 
 def check_update():
