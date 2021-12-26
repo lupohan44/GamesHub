@@ -5,6 +5,7 @@ from version import *
 GITHUB_URL = "https://github.com/lupohan44/SteamDBFreeGamesClaimer"
 GITHUB_VERSION_URL = "https://raw.githubusercontent.com/lupohan44/SteamDBFreeGamesClaimer/main/version.py"
 STEAM_DB_FREE_GAMES_URL = "https://steamdb.info/upcoming/free/"
+LOG_FOLDER = "logs"
 CONFIG_PATH = "config.json5"
 RECORD_PATH = "record.db"
 FIRST_DELAY = 15

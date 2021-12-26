@@ -48,6 +48,11 @@ class UpdateChecking:
         self.check_update_when = "startup"
 
 
+class LogSetting:
+    def __init__(self):
+        self.screenshotEnabled = False
+
+
 class TimeFormat:
     def __init__(self):
         self.utc_offset = 0
@@ -77,6 +82,7 @@ class ASF:
 class Config:
     def __init__(self):
         self.update_checking = UpdateChecking()
+        self.log_setting = LogSetting()
         self.loop = True
         self.loop_delay = 3000
         self.time_format = TimeFormat()
@@ -146,8 +152,18 @@ def playwright_get_url(url, delay=0, headless=True):
         try:
             page = browser.new_page()
             page.goto(url=url)
-            if delay != 0:
-                time.sleep(delay)
+            if config.log_setting.screenshotEnabled:
+                # Create log folder if not exists
+                if not os.path.exists(LOG_FOLDER):
+                    os.makedirs(LOG_FOLDER)
+            delay_remaining = delay
+            while delay_remaining > 0:
+                time.sleep(3)
+                if config.log_setting.screenshotEnabled:
+                    page.screenshot(path=os.path.join(LOG_FOLDER, ("screenshot-%s.png" %
+                                                                   (time.strftime("%Y-%m-%d-%H-%M-%S",
+                                                                                  time.localtime())))))
+                delay_remaining = delay_remaining - 3
             html = page.inner_html("*")
         except:
             raise Exception(GET_PAGE_SOURCE_ERROR_MSG)
@@ -295,6 +311,9 @@ def parse_config():
             config.update_checking.enable = config_json["update"]["check_update"]
         if "check_update_when" in config_json["update"]:
             config.update_checking.check_update_when = config_json["update"]["check_update_when"]
+    if "log" in config_json:
+        if "screenshot" in config_json["log"]:
+            config.log_setting.screenshotEnabled = config_json["log"]["screenshot"]
     if "loop" in config_json:
         config.loop = config_json["loop"]
     if "loop_delay" in config_json:

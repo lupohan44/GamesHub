@@ -7,6 +7,10 @@
      */
     "check_update_when": "startup"
   },
+  "log": {
+    // Taking screenshot while waiting for steamdb loading
+    "screenshot": true
+  },
   "loop": true,
   "loop_delay": 3000,
   "headers": {

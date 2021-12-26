@@ -1,6 +1,11 @@
 # Changelog
 ## 1.2.1
-1. Added bot whitelist ([#9](/../../pull/9))
+
+### 2021/12/26
+1. Add new config option to take screenshot while waiting for steamdb loading
+
+### 2021/12/22
+1. Add bot whitelist ([#9](/../../pull/9))
 
 ## 1.2.0
 1. Supports new SteamDB website structure
