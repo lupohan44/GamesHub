@@ -43,7 +43,7 @@
     "ipc": "http://127.0.0.1:1242",
     "ipc_password": "",
     "redeem_type_blacklist": ["Weekend"],
-	// Leave empty to redeem with all bots
+    // Leave empty to redeem with all bots
     "bot_whitelist": []
   }
 }
