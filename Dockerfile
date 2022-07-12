@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright/python:v1.24.0-focal
+FROM mcr.microsoft.com/playwright/python:v1.23.0-focal
 
 # Reduce the size of the image
 RUN rm -rf ms-playwright/chromium* ms-playwright/firefox* ms-playwright/webkit*

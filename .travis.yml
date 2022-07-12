@@ -6,7 +6,7 @@ services:
   - docker
 
 before_install:
-  - docker pull mcr.microsoft.com/playwright:focal
+  - docker pull mcr.microsoft.com/playwright/python:v1.23.0-focal
 
 install:
   - echo "do not do anything"
