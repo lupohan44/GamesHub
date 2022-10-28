@@ -1,4 +1,11 @@
 # Changelog
+## 1.2.2
+1. Fix wrong indent in config.example.json5
+2. Add version tag in docker image
+3. Support argument: "-h" or "--help" to show help message
+4. Support argument: "-v" or "--version" to show version
+5. Support argument: "-c" or "--check-update" to check update
+
 ## 1.2.1
 
 ### 2021/12/26

@@ -1,7 +1,9 @@
 import asyncio
 import datetime
+import getopt
 import os
 import selectors
+import sys
 import time
 from urllib import request
 from urllib.parse import urljoin
@@ -376,7 +378,30 @@ def check_update():
         logger.warning(CANNOT_CHECK_UPDATE_WARNING_MSG)
 
 
-def main():
+def print_help():
+    print("Usage: python %s [options]" % os.path.basename(__file__))
+    print("Options:")
+    print("  -h, --help\t\t\tPrint this help message")
+    print("  -c, --check-update\t\tCheck for update")
+    print("  -v, --version\t\t\tPrint version information")
+
+
+def main(argv):
+    try:
+        opts, args = getopt.getopt(argv, "hvc", ["help", "version", "check-update"])
+    except getopt.GetoptError:
+        print_help()
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print_help()
+            sys.exit()
+        elif opt in ("-v", "--version"):
+            print(VERSION)
+            sys.exit()
+        elif opt in ("-c", "--check-update"):
+            check_update()
+            sys.exit()
     logger.info("#####################################################################################")
     logger.info("################################# SteamDBFreeGamesClaimer ###########################")
     logger.info("#################################### Author: lupohan44 ##############################")
@@ -406,7 +431,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        main(sys.argv[1:])
     except Exception as e:
         logger.error(e)
         exit(1)
