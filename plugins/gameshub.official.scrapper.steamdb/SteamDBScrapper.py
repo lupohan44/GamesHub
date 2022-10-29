@@ -206,6 +206,16 @@ def parse_config():
         http_header.update(config_json["headers"])
 
 
+logger.info(center_format_text())
+logger.info(center_format_text("SteamDB Free Games Scraper"))
+logger.info(center_format_text("Scrap free games from SteamDB"))
+logger.info(center_format_text("Author: lupohan44"))
+logger.info(center_format_text())
+
+parse_config()
+db.create_tables([GameRecord])
+
+
 @timer(delay=config.loop_delay)
 def scrapper():
     try:
@@ -218,13 +228,3 @@ def scrapper():
         process_steamdb_result(steamdb_result=html)
     except Exception as e:
         logger.error(e)
-
-
-logger.info(center_format_text())
-logger.info(center_format_text("SteamDB Free Games Scraper"))
-logger.info(center_format_text("Scrap free games from SteamDB"))
-logger.info(center_format_text("Author: lupohan44"))
-logger.info(center_format_text())
-
-parse_config()
-db.create_tables([GameRecord])

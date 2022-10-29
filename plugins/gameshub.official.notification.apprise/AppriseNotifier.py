@@ -79,7 +79,13 @@ def format_time(utc_date: datetime.datetime, offset: int, format_str: str):  # f
 
 
 config = Config()
+logger.info(center_format_text())
+logger.info(center_format_text("Apprise Notifier"))
+logger.info(center_format_text("Send notification to Apprise supported platforms"))
+logger.info(center_format_text("Author: lupohan44"))
+logger.info(center_format_text())
 
+parse_config()
 for notification in config.notifications:
     @receiver(game_platforms=notification.game_platforms, free_types=notification.notification_free_type)
     def notify(
@@ -113,12 +119,3 @@ for notification in config.notifications:
         apprise_obj = apprise.Apprise()
         apprise_obj.add(notification.servers)
         apprise_obj.notify(title=title, body=body)
-
-
-logger.info(center_format_text())
-logger.info(center_format_text("Apprise Notifier"))
-logger.info(center_format_text("Send notification to Apprise supported platforms"))
-logger.info(center_format_text("Author: lupohan44"))
-logger.info(center_format_text())
-
-parse_config()

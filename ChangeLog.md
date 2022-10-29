@@ -1,4 +1,8 @@
 # Changelog
+## 2.0.1
+1. Fix ASF redeeming fail cause system crash issue
+2. Fix plugins config load too late
+
 ## 2.0.0
 1. Rename the project to GamesHub (from SteamDBFreeGamesClaimer)
 2. Change the project's architecture to plugin based

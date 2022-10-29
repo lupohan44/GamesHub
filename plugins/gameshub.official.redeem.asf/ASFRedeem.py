@@ -118,21 +118,6 @@ async def command(cmd):
         })
 
 
-@timer(60)
-def redeem_games():
-    games = get_available_game_record_from_db()
-    if games is None:
-        return
-    games_id = []
-    for game in games:
-        games_id.append(game.sub_id)
-        logger.info(REDEEM_GAME_MSG % (game.game_name, game.sub_id))
-    cmd = config.redeem_command.format(game_ids=",".join(games_id))
-    asyncio.run(command(cmd))
-    logger.info(REDEEM_GAME_SUCCESS_MSG % cmd)
-    delete_game_record_from_db(games_id)
-
-
 logger.info(center_format_text())
 logger.info(center_format_text("ASF Redeem"))
 logger.info(center_format_text("Redeem free steam games through ASF"))
@@ -141,3 +126,21 @@ logger.info(center_format_text())
 
 parse_config()
 db.create_tables([GameRecord])
+
+
+@timer(60)
+def redeem_games():
+    try:
+        games = get_available_game_record_from_db()
+        if games is None:
+            return
+        games_id = []
+        for game in games:
+            games_id.append(game.sub_id)
+            logger.info(REDEEM_GAME_MSG % (game.game_name, game.sub_id))
+        cmd = config.redeem_command.format(game_ids=",".join(games_id))
+        asyncio.run(command(cmd))
+        logger.info(REDEEM_GAME_SUCCESS_MSG % cmd)
+        delete_game_record_from_db(games_id)
+    except Exception as e:
+        logger.error(e)
