@@ -13,11 +13,11 @@ install:
 
 script:
   - export APP_VERSION=$(python3 -c "from version import *; print(VERSION)")
-  - docker build --rm -t lupohan44/steamdb_free_games_claimer:latest -t lupohan44/steamdb_free_games_claimer:v${APP_VERSION} .
+  - docker build --rm -t lupohan44/games_hub:latest -t lupohan44/games_hub:v${APP_VERSION} .
 
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-    docker push lupohan44/steamdb_free_games_claimer:latest;
-    docker push lupohan44/steamdb_free_games_claimer:v${APP_VERSION};
+    docker push lupohan44/games_hub:latest;
+    docker push lupohan44/games_hub:v${APP_VERSION};
     fi

@@ -1,8 +1,7 @@
 **/__pycache__/
-/config.json5
-/log.txt
+/**/config.json5
+/**/log.txt
 /.idea/
-/record.json5
 /SteamDBFreeGamesClaimer.iml
-/record.db
+/**/record.db
 /logs

@@ -1,4 +1,15 @@
 # Changelog
+## 2.0.0
+1. Rename the project to GamesHub (from SteamDBFreeGamesClaimer)
+2. Change the project's architecture to plugin based
+3. Remove check_update_when setting, check update on startup now
+4. Add github mirror for check update
+5. Remove loop option in SteamDBScrapper plugin, now it will loop forever
+6. Add browser option in SteamDBScrapper plugin, now it support webkit, chromium and firefox
+7. Add headless option in SteamDBScrapper plugin
+8. Change notification method to [Apprise](https://github.com/caronc/apprise)
+9. Change ASFRedeem plugin settings
+
 ## 1.2.2
 1. Fix wrong indent in config.example.json5
 2. Add version tag in docker image

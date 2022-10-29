@@ -1,8 +1,9 @@
-playwright~=1.12.1
+playwright~=1.25.2
 beautifulsoup4~=4.9.3
-python-telegram-bot~=13.7
 lxml>=4.9.1
 asf-ipc~=2.1.0
 json5~=0.9.6
 peewee~=3.14.4
 packaging~=21.0
+apprise~=1.1.0
+schedule~=1.1.0

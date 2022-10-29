@@ -1,0 +1,8 @@
+{
+  "ipc": "http://127.0.0.1:1242",
+  "ipc_password": "",
+  "redeem_type": ["Keep Forever"],
+  // leave empty to redeem all types, supported types please refer to games_hub/types.py
+  "redeem_command": "!addlicense asf {game_ids}",
+  // change asf to your bot name if you do not want to redeem on all bots
+}

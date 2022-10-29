@@ -1,49 +1,16 @@
 {
   "update": {
-    "check_update": true,
-    /* Support startup and loop
-     * startup: only check update when script begin
-     * loop: check update each time script query from SteamDB
-     */
-    "check_update_when": "startup"
+    "check_update": true
   },
-  "log": {
-    // Taking screenshot while waiting for steamdb loading
-    "screenshot": true
-  },
-  "loop": true,
-  "loop_delay": 3000,
-  "headers": {
-    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36 Edg/80.0.361.69"
-  },
-  "time_format": {
-    "format_str": "%Y/%m/%d %H:%M UTC",
-    "utc_offset": 0
-  },
-  // Remove this field if you don't need it, but you can't remove it and "asf" at the same time
-  "telegram": {
-    // Required
-    "token": "TOKEN_FROM_BOT_FATHER",
-    // Required
-    "chat_id": [
-      "CHAT_ID_FROM_API"
-    ],
-    "format": {
-      "markdown": false,
-      "message": "<b>{game}</b>\nSub ID: <i>{sub_id}</i>\nSteam Url: <a href=\"{steam_url}\">{game}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {end_time}\nSteamDB Url: <a href=\"{steamdb_url}\">{steamdb_url}</a>\n!addlicense asf {sub_id}"
+  "plugins": {
+    "gameshub.official.scrapper.steamdb": { // SteamDB scrapper plugin
+      "enable": true
     },
-    // "ALL" will include all free types
-    "notification_free_type": ["ALL"],
-    // Delay after each message sent by telegram bot
-    "delay": 1
-  },
-  // Remove this field if you don't need it, but you can't remove it and "telegram" at the same time
-  "asf": {
-    // Required
-    "ipc": "http://127.0.0.1:1242",
-    "ipc_password": "",
-    "redeem_type_blacklist": ["Weekend"],
-    // Leave empty to redeem with all bots
-    "bot_whitelist": []
+    "gameshub.official.notification.apprise": { // Apprise notification plugin
+      "enable": true
+    },
+    "gameshub.official.redeem.asf": {
+      "enable": true
+    }
   }
 }

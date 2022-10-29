@@ -1,0 +1,15 @@
+{
+  "time_format": {
+    "format_str": "%Y/%m/%d %H:%M UTC",
+    "utc_offset": 0
+  },
+  "notifications": [
+    {
+      "servers": "tgram://bottoken/ChatID", // Detailed format please refer to https://github.com/caronc/apprise#productivity-based-notifications
+      "notification_free_type": [], // leave empty will include all types, supported value please refer to games_hub/types.py
+      "game_platforms": [], // leave empty will include all platforms, supported value please refer to games_hub/types.py
+      "title": "New Free Game Found - By {notify_plugin}",
+      "body": "<b>{game_name}</b>\nPlatform: {game_platform}\nGame ID: <i>{game_id}</i>\nGame Url: <a href=\"{game_url}\">{game_name}</a>\nfree type: {free_type}\nstart time: {start_time}\nend time: {end_time}\nSource Url: <a href=\"{source_url}\">{source_url}</a>\n<pre>{extra_info}</pre>"
+    }
+  ]
+}

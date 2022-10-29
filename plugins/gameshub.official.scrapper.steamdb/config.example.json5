@@ -1,0 +1,13 @@
+{
+  "log": {
+    // Taking screenshot while waiting for steamdb loading
+    "screenshot": false
+  },
+  "headers": {
+    "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.149 Safari/537.36 Edg/80.0.361.69"
+  },
+  "browser": "firefox", // supported: chromium, firefox, webkit
+  "headless": true, // use headless mode to open browser
+  "first_delay": 15,
+  "loop_delay": 3000
+}
