@@ -13,7 +13,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "SteamDB Scrapper"
 __package__ = "gameshub.official.scrapper.steamdb"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -34,8 +34,8 @@ class GameRecord(Model):
     game_name = CharField()
     sub_id = CharField()  # IntegerField() might be better
     steam_url = CharField()
-    start_time = DateTimeField()
-    end_time = DateTimeField()
+    start_time = DateTimeField(null=True)
+    end_time = DateTimeField(null=True)
 
     class Meta:
         database = db

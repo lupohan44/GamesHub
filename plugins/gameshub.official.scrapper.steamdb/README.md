@@ -6,6 +6,9 @@ This is plugin to use [playwright](https://playwright.dev/python/docs/intro) scr
 **Seems that SteamDB really don't want people scraping their site.**
 
 ## Changelog
+v1.0.2
+- Fix when start time or end time is None, sqlite3 will raise error
+
 v1.0.1
 - Add version
 - Fix wrong start time and end time when it is not available on steamdb

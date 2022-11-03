@@ -11,7 +11,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "ASF Redeem"
 __package__ = "gameshub.official.redeem.asf"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -29,8 +29,8 @@ class GameRecord(Model):
     game_name = CharField()
     sub_id = CharField()  # IntegerField() might be better
     steam_url = CharField()
-    start_time = DateTimeField()
-    end_time = DateTimeField()
+    start_time = DateTimeField(null=True)
+    end_time = DateTimeField(null=True)
 
     class Meta:
         database = db
@@ -49,8 +49,8 @@ def get_available_game_record_from_db():
     games = GameRecord.select()
     correct_games = []
     for game in games:
-        if game.start_time < datetime.datetime.utcnow() + datetime.timedelta(minutes=60) \
-                and game.end_time > datetime.datetime.utcnow():
+        if (game.start_time is None or game.start_time < datetime.datetime.utcnow() + datetime.timedelta(minutes=60)) \
+                and (game.end_time is None or game.end_time > datetime.datetime.utcnow()):
             correct_games.append(game)
     if len(correct_games) != 0:
         return correct_games
@@ -99,8 +99,8 @@ def notify(
         game_id: str,
         game_url: str,
         free_type: GameFreeType,
-        start_time: datetime.datetime,
-        end_time: datetime.datetime,
+        start_time: typing.Optional[datetime.datetime],
+        end_time: typing.Optional[datetime.datetime],
         source_url: str,
         extra_info: str = None
 ):

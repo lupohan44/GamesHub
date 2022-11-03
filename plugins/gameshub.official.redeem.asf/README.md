@@ -7,6 +7,9 @@ This is plugin to redeem steam free games using [ASF](https://github.com/JustArc
 - [ASF](https://github.com/JustArchiNET/ArchiSteamFarm)
 
 ## Changelog
+v1.0.2
+- Fix error when start time or end time is None
+
 v1.0.1
 - Add version
 - Move all runtime files to {WORKING_DIR}/plugins/{PLUGIN_PACKAGE_NAME}
