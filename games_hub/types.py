@@ -8,6 +8,10 @@ class GamePlatform(Enum):
     UPLAY = "Uplay"
     GOG = "GOG"
     BATTLENET = "Battle.net"
+    AMAZON = "Amazon"
+    WINDOWS_STORE = "Windows Store"
+    HUMBLE_BUNDLE = "Humble Bundle"
+    BETHESDA = "Bethesda"
     OTHER = "Other"
 
 

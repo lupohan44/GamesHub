@@ -2,6 +2,6 @@
 /**/config.json5
 /**/log.txt
 /.idea/
-/SteamDBFreeGamesClaimer.iml
+/**/*.iml
 /**/record.db
 /logs

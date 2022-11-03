@@ -6,10 +6,13 @@
     "gameshub.official.scrapper.steamdb": { // SteamDB scrapper plugin
       "enable": true
     },
+    "gameshub.official.scrapper.keylol": { // Keylol scrapper plugin
+      "enable": true
+    },
     "gameshub.official.notification.apprise": { // Apprise notification plugin
       "enable": true
     },
-    "gameshub.official.redeem.asf": {
+    "gameshub.official.redeem.asf": { // ASF redeem plugin
       "enable": true
     }
   }

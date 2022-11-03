@@ -48,8 +48,8 @@ def notify(
         game_id: str,
         game_url: str,
         free_type: GameFreeType,
-        start_time: datetime.datetime,
-        end_time: datetime.datetime,
+        start_time: typing.Optional[datetime.datetime],
+        end_time: typing.Optional[datetime.datetime],
         source_url: str,
         extra_info: str = None
 ):

@@ -11,16 +11,14 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "ASF Redeem"
 __package__ = "gameshub.official.redeem.asf"
-config_folder = os.path.split(os.path.realpath(__file__))[0]
+__version__ = "1.0.1"
+config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
+config_folder = os.path.join('plugins', __package__)
+if not os.path.exists(config_folder):
+    os.makedirs(config_folder, exist_ok=True)
 record_path = os.path.join(config_folder, "record.db")
 config_path = os.path.join(config_folder, "config.json5")
-config_example_path = os.path.join(config_folder, "config.example.json5")
 if not os.path.exists(config_path):
-    config_folder = os.path.join('plugins', __package__)
-    if not os.path.exists(config_folder):
-        os.mkdir(config_folder)
-    record_path = os.path.join(config_folder, "record.db")
-    config_path = os.path.join(config_folder, "config.json5")
     shutil.copy(config_example_path, config_path)
 """static variables END"""
 

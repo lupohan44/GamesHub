@@ -12,14 +12,13 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "Apprise Notifier"
 __package__ = "gameshub.official.notification.apprise"
-config_folder = os.path.split(os.path.realpath(__file__))[0]
+__version__ = "1.0.1"
+config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
+config_folder = os.path.join('plugins', __package__)
+if not os.path.exists(config_folder):
+    os.makedirs(config_folder, exist_ok=True)
 config_path = os.path.join(config_folder, "config.json5")
-config_example_path = os.path.join(config_folder, "config.example.json5")
 if not os.path.exists(config_path):
-    config_folder = os.path.join('plugins', __package__)
-    if not os.path.exists(config_folder):
-        os.mkdir(config_folder)
-    config_path = os.path.join(config_folder, "config.json5")
     shutil.copy(config_example_path, config_path)
 """static variables END"""
 
@@ -101,6 +100,12 @@ for notification in config.notifications:
             extra_info: str = None
     ):
         def format_str(s: str):
+            start_time_str = 'N/A'
+            if start_time is not None:
+                start_time_str = format_time(start_time, config.time_format.utc_offset, config.time_format.format_str)
+            end_time_str = 'N/A'
+            if end_time is not None:
+                end_time_str = format_time(end_time, config.time_format.utc_offset, config.time_format.format_str)
             return s.format(
                 notify_plugin=notify_plugin,
                 game_platform=game_platform.value,
@@ -108,8 +113,8 @@ for notification in config.notifications:
                 game_id=game_id,
                 game_url=game_url,
                 free_type=free_type.value,
-                start_time=format_time(start_time, config.time_format.utc_offset, config.time_format.format_str),
-                end_time=format_time(end_time, config.time_format.utc_offset, config.time_format.format_str),
+                start_time=start_time_str,
+                end_time=end_time_str,
                 source_url=source_url,
                 extra_info=extra_info
             )

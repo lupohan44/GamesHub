@@ -1,5 +1,11 @@
 # Changelog
 ## 2.0.1
+### 2022/11/3
+1. Remove version in [requirements.txt](requirements.txt)
+2. Add [requirements-no_plugin.txt](requirements-no_plugin.txt) for users who don't want to use any official plugins
+3. Add new plugin [Keylol Scrapper](plugins/gameshub.official.scrapper.keylol)
+
+### 2022/10/19
 1. Fix ASF redeeming fail cause system crash issue
 2. Fix plugins config load too late
 

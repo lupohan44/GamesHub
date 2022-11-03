@@ -13,19 +13,17 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "SteamDB Scrapper"
 __package__ = "gameshub.official.scrapper.steamdb"
-config_folder = os.path.split(os.path.realpath(__file__))[0]
+__version__ = "1.0.1"
+config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
+config_folder = os.path.join('plugins', __package__)
+if not os.path.exists(config_folder):
+    os.makedirs(config_folder, exist_ok=True)
 record_path = os.path.join(config_folder, "record.db")
 config_path = os.path.join(config_folder, "config.json5")
 log_folder = os.path.join(config_folder, "logs")
-config_example_path = os.path.join(config_folder, "config.example.json5")
 if not os.path.exists(config_path):
-    config_folder = os.path.join('plugins', __package__)
-    if not os.path.exists(config_folder):
-        os.mkdir(config_folder)
-    record_path = os.path.join(config_folder, "record.db")
-    config_path = os.path.join(config_folder, "config.json5")
-    log_folder = os.path.join(config_folder, "logs")
     shutil.copy(config_example_path, config_path)
+STEAM_DB_FREE_GAMES_URL = "https://steamdb.info/upcoming/free/"
 """static variables END"""
 
 http_header = dict({})
@@ -125,8 +123,8 @@ def process_steamdb_result(steamdb_result):
         steamdb_url = "N/A"
 
         tds = each_tr.find_all("td")
-        start_datetime = datetime.datetime(year=2020, month=1, day=1)
-        end_datetime = datetime.datetime(year=2020, month=1, day=1)
+        start_datetime = None
+        end_datetime = None
         '''get basic info'''
         tds_length = len(tds)
         if len(tds[tds_length - 3].contents) == 1:
@@ -137,14 +135,10 @@ def process_steamdb_result(steamdb_result):
         end_time_str = str(tds[tds_length - 1].get("data-time"))
         steamdb_url = urljoin(STEAM_DB_FREE_GAMES_URL, str(tds[tds_length - 5].contents[1].get("href")))
 
-        if start_time_str == str(None):
-            start_time_str = "N/A"
-        else:
+        if start_time_str != str(None):
             utc_format = "%Y-%m-%dT%H:%M:%S+00:00"
             start_datetime = datetime.datetime.strptime(start_time_str, utc_format)
-        if end_time_str == str(None):
-            end_time_str = "N/A"
-        else:
+        if end_time_str != str(None):
             utc_format = "%Y-%m-%dT%H:%M:%S+00:00"
             end_datetime = datetime.datetime.strptime(end_time_str, utc_format)
 
