@@ -4,6 +4,8 @@
 
 This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/SteamDB-FreeGames)
 
+Telegram discussion group: [https://t.me/GamesHubDiscussion](https://t.me/GamesHubDiscussion)
+
 ## Star History
 [![Stargazers over time](https://starchart.cc/lupohan44/GamesHub.svg)](https://starchart.cc/lupohan44/GamesHub)
 
@@ -15,7 +17,7 @@ Provide a framework to develop plugins to scrap games from different websites an
 
 :white_check_mark: Gather free games from [Keylol](https://keylol.com/t572814-1-1). (recommended)
 
-:white_check_mark: Use [Apprise](https://github.com/caronc/apprise) to send free games information. [(Telegram channel)](https://t.me/SteamFreeGameNotify)
+:white_check_mark: Use [Apprise](https://github.com/caronc/apprise) to send free games information. [(Telegram demo channel)](https://t.me/GamesHubDemo)
 
 :white_check_mark: Use [ASF](https://github.com/JustArchiNET/ArchiSteamFarm) to redeem games
 ## Requirements
