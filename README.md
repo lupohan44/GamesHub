@@ -1,5 +1,7 @@
 # GamesHub
 
+![GamesHubLogo](static_files/logo.png)
+
 [![project](https://img.shields.io/badge/lupohan44-GamesHub-brightgreen)](https://github.com/lupohan44/GamesHub) [![GitHub license](https://img.shields.io/github/license/lupohan44/GamesHub)](https://github.com/lupohan44/GamesHub/blob/main/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/lupohan44/GamesHub)](https://github.com/lupohan44/GamesHub/stargazers) [![docker](https://img.shields.io/badge/Docker-lupohan44%2Fgames_hub-blue?logo=docker)](https://hub.docker.com/r/lupohan44/games_hub) [![Build Status](https://api.travis-ci.com/lupohan44/GamesHub.svg)](https://travis-ci.com/github/lupohan44/GamesHub)
 
 This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/SteamDB-FreeGames)
@@ -99,11 +101,15 @@ Provide a framework to develop plugins to scrap games from different websites an
 2. Copy one of the official plugin in [plugins](plugins) folder and rename it to your package name
 3. Follow the official plugin's structure and modify it to your needs
 
+## [Changelog](ChangeLog.md)
+
+## Special Thanks
+- The logo is designed by 限免喜加一
+![WechatQrCode](static_files/wechat-QRcode.jpg)
+
 ## Support me
 1. [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/lupohan44)
 2. Star this repository
 3. Contribute to this project by pull request
 
 Each of them is appreciated. Thank you.
-
-## [Changelog](ChangeLog.md)
