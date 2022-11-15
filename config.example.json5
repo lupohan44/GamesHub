@@ -9,6 +9,9 @@
     "gameshub.official.scrapper.keylol": { // Keylol scrapper plugin
       "enable": true
     },
+    "gameshub.official.scrapper.reddit": { // Reddit scrapper plugin
+      "enable": true
+    },
     "gameshub.official.notification.apprise": { // Apprise notification plugin
       "enable": true
     },

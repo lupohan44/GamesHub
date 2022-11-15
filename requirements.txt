@@ -8,3 +8,5 @@ packaging
 apprise
 schedule
 steam[client]
+requests
+praw
