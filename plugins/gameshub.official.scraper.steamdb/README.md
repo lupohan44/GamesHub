@@ -1,4 +1,4 @@
-# SteamDB Scrapper (gameshub.official.scrapper.steamdb)
+# SteamDB Scraper (gameshub.official.scraper.steamdb)
 
 ## Description
 This is plugin to use [playwright](https://playwright.dev/python/docs/intro) scrap free games information from [steamdb](https://steamdb.info/upcoming/free/)

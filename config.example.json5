@@ -3,13 +3,13 @@
     "check_update": true
   },
   "plugins": {
-    "gameshub.official.scrapper.steamdb": { // SteamDB scrapper plugin
+    "gameshub.official.scraper.steamdb": { // SteamDB scraper plugin
       "enable": true
     },
-    "gameshub.official.scrapper.keylol": { // Keylol scrapper plugin
+    "gameshub.official.scraper.keylol": { // Keylol scraper plugin
       "enable": true
     },
-    "gameshub.official.scrapper.reddit": { // Reddit scrapper plugin
+    "gameshub.official.scraper.reddit": { // Reddit scraper plugin
       "enable": true
     },
     "gameshub.official.notification.apprise": { // Apprise notification plugin

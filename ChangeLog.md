@@ -3,7 +3,7 @@
 ### 2022/11/3
 1. Remove version in [requirements.txt](requirements.txt)
 2. Add [requirements-no_plugin.txt](requirements-no_plugin.txt) for users who don't want to use any official plugins
-3. Add new plugin [Keylol Scrapper](plugins/gameshub.official.scrapper.keylol)
+3. Add new plugin [Keylol scraper](plugins/gameshub.official.scraper.keylol)
 
 ### 2022/10/19
 1. Fix ASF redeeming fail cause system crash issue
@@ -14,9 +14,9 @@
 2. Change the project's architecture to plugin based
 3. Remove check_update_when setting, check update on startup now
 4. Add github mirror for check update
-5. Remove loop option in SteamDBScrapper plugin, now it will loop forever
-6. Add browser option in SteamDBScrapper plugin, now it support webkit, chromium and firefox
-7. Add headless option in SteamDBScrapper plugin
+5. Remove loop option in SteamDBscraper plugin, now it will loop forever
+6. Add browser option in SteamDBscraper plugin, now it support webkit, chromium and firefox
+7. Add headless option in SteamDBscraper plugin
 8. Change notification method to [Apprise](https://github.com/caronc/apprise)
 9. Change ASFRedeem plugin settings
 

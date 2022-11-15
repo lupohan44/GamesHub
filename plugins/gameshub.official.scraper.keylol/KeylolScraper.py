@@ -11,8 +11,8 @@ from games_hub.message import *
 from games_hub.utils import *
 
 """static variables"""
-__name__ = "Keylol Scrapper"
-__package__ = "gameshub.official.scrapper.keylol"
+__name__ = "Keylol Scraper"
+__package__ = "gameshub.official.scraper.keylol"
 __version__ = "1.0.0"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
@@ -285,7 +285,7 @@ if not verify_cookies():
 
 
 @timer(delay=config.loop_delay)
-def scrapper():
+def scraper():
     try:
         logger.info("Loading keylol page...")
         soup = get_url(url=KEYLOL_FREE_GAMES_HUB_URL)

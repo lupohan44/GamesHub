@@ -1,4 +1,4 @@
-# Keylol Scrapper (gameshub.official.scrapper.keylol)
+# Keylol Scraper (gameshub.official.scraper.keylol)
 
 ## Description
 This is plugin to scrap free games information from [Keylol](https://keylol.com/t572814-1-1)  

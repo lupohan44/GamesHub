@@ -1,4 +1,4 @@
-# Reddit Scrapper (gameshub.official.scrapper.reddit)
+# Reddit Scraper (gameshub.official.scraper.reddit)
 
 ## Description
 This is a plugin to scrap free games information from [Reddit](https://www.reddit.com/r/freegames)

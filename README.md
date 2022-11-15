@@ -84,9 +84,9 @@ Provide a framework to develop plugins to scrap games from different websites an
    └── plugins
        ├── gameshub.official.notification.apprise
        │   └── config.json5
-       ├── gameshub.official.scrapper.steamdb
+       ├── gameshub.official.scraper.steamdb
        │   └── config.json5
-       ├── gameshub.official.scrapper.keylol
+       ├── gameshub.official.scraper.keylol
        │   ├── config.json5
        │   └── cookies.txt
        └── gameshub.official.redeemer.asf

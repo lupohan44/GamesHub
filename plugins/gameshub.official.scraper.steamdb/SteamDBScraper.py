@@ -11,8 +11,8 @@ from games_hub.message import *
 from games_hub.utils import *
 
 """static variables"""
-__name__ = "SteamDB Scrapper"
-__package__ = "gameshub.official.scrapper.steamdb"
+__name__ = "SteamDB Scraper"
+__package__ = "gameshub.official.scraper.steamdb"
 __version__ = "1.0.2"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
@@ -211,7 +211,7 @@ db.create_tables([GameRecord])
 
 
 @timer(delay=config.loop_delay)
-def scrapper():
+def scraper():
     try:
         logger.info("Loading steamdb page...")
         html = playwright_get_url(url=STEAM_DB_FREE_GAMES_URL, delay=config.first_delay, browser=config.browser,
