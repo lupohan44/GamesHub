@@ -19,9 +19,13 @@ Provide a framework to develop plugins to scrap games from different websites an
 
 :white_check_mark: Gather free games from [Keylol](https://keylol.com/t572814-1-1). (recommended)
 
+:white_check_mark: Gather free games from [Reddit](https://www.reddit.com/r/freegames).
+
 :white_check_mark: Use [Apprise](https://github.com/caronc/apprise) to send free games information. [(Telegram demo channel)](https://t.me/GamesHubDemo)
 
 :white_check_mark: Use [ASF](https://github.com/JustArchiNET/ArchiSteamFarm) to redeem games
+
+:white_check_mark: Use [Steam](https://github.com/ValvePython/steam) to redeem games
 ## Requirements
 
 - python3
