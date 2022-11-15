@@ -14,6 +14,9 @@
     },
     "gameshub.official.redeem.asf": { // ASF redeem plugin
       "enable": true
+    },
+    "gameshub.official.redeem.steamclient": { // Steamclient redeem plugin (https://github.com/ValvePython/steam)
+      "enable": true
     }
   }
 }

@@ -1,0 +1,14 @@
+{
+  "accounts": [
+    {
+      "username": "YOUR_STEAM_USERNAME",
+      "password": "YOUR_STEAM_PASSWORD",
+      "secrets": { // Remove this section if you don't want to manually input 2fa code, or you cannot extract secrets
+        "identity_secret": "YOUR_IDENTITY_SECRET",
+        "shared_secret": "YOUR_SHARED_SECRET"
+      }
+    }
+  ],
+  "redeem_type": ["Keep Forever"],
+  // leave empty to redeem all types, supported types please refer to games_hub/types.py
+}

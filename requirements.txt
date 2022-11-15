@@ -7,3 +7,4 @@ peewee
 packaging
 apprise
 schedule
+steam[client]
