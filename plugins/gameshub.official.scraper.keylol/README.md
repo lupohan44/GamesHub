@@ -18,5 +18,8 @@ cookies is required, plugin will rate for the post to say "thank you" to the pos
 ![cookies.png](../../static_files/cookies.png)
 
 ## Changelog
+v1.0.1
+- Fix scraper get wrong information when steam url is like https://store.steampowered.com/sub/xxxx
+
 v1.0.0
 - Initial release

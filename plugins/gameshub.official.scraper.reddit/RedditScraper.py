@@ -13,7 +13,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "Reddit Scraper"
 __package__ = "gameshub.official.scraper.reddit"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -111,6 +111,7 @@ reddit = praw.Reddit(
 @timer(delay=config.loop_delay)
 def scraper():
     try:
+        logger.info("Loading reddit...")
         subreddit = reddit.subreddit(SUBREDDIT_NAME)
         for submission in subreddit.new(limit=20):
             game_url = submission.url

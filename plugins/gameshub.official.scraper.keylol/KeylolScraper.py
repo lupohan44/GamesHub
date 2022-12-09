@@ -13,7 +13,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "Keylol Scraper"
 __package__ = "gameshub.official.scraper.keylol"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -207,16 +207,24 @@ def process_keylol_steam_free_game_information(source_url, soup):
     if get_game_record_from_db(source_url) is not None:
         return
     a_tags = soup.find_all('a')
-    steam_urls = []
+    steam_app_urls = []
+    steam_subid_urls = []
     for a_tag in a_tags:
         href = a_tag.get('href')
         if href is not None and 'store.steampowered.com/app' in href:
-            steam_urls.append(href)
+            steam_app_urls.append(href)
+        if href is not None and 'store.steampowered.com/sub' in href:
+            steam_subid_urls.append(href)
     app_ids = []
-    for steam_url in steam_urls:
-        app_id = steam_url.split('/')[4]
+    sub_ids = []
+    for steam_app_url in steam_app_urls:
+        app_id = steam_app_url.split('/')[4]
         if app_id not in app_ids:
             app_ids.append(app_id)
+    for steam_subid_url in steam_subid_urls:
+        sub_id = steam_subid_url.split('/')[4]
+        if sub_id not in sub_ids:
+            sub_ids.append(sub_id)
     # if the game type is dlc, sometimes thread author will provide game url as well
     final_app_info = {}
     for app_id in app_ids:
@@ -226,20 +234,44 @@ def process_keylol_steam_free_game_information(source_url, soup):
             data = response_json[app_id]['data']
             if not data['is_free']:
                 continue
+            sub_id = ''
+            if sub_ids is not None and len(sub_ids) > 0:
+                if 'package_groups' in data and data['package_groups'] is not None:
+                    for package_group in data['package_groups']:
+                        if 'subs' in package_group and package_group['subs'] is not None:
+                            for sub in package_group['subs']:
+                                if str(sub['packageid']) in sub_ids:
+                                    sub_id = str(sub['packageid'])
             if 'type' in data and data['type'] == 'game':
-                final_app_info = {
-                    'type': 'game',
-                    'app_id': app_id,
-                    'name': data['name'],
-                    'url': 'https://store.steampowered.com/app/' + app_id,
-                }
+                if sub_id == '':
+                    final_app_info = {
+                        'type': 'game',
+                        'app_id': app_id,
+                        'name': data['name'],
+                        'url': 'https://store.steampowered.com/app/' + app_id,
+                    }
+                else:
+                    final_app_info = {
+                        'type': 'game',
+                        'app_id': sub_id,
+                        'name': data['name'],
+                        'url': 'https://store.steampowered.com/sub/' + sub_id,
+                    }
             elif 'type' in data and data['type'] == 'dlc':
-                final_app_info = {
-                    'type': 'dlc',
-                    'app_id': app_id,
-                    'name': data['name'],
-                    'url': 'https://store.steampowered.com/app/' + app_id,
-                }
+                if sub_id == '':
+                    final_app_info = {
+                        'type': 'dlc',
+                        'app_id': app_id,
+                        'name': data['name'],
+                        'url': 'https://store.steampowered.com/app/' + app_id,
+                    }
+                else:
+                    final_app_info = {
+                        'type': 'dlc',
+                        'app_id': sub_id,
+                        'name': data['name'],
+                        'url': 'https://store.steampowered.com/sub/' + sub_id,
+                    }
                 break
     if len(final_app_info) == 0:
         return
