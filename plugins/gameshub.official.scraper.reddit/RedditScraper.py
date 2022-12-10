@@ -13,7 +13,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "Reddit Scraper"
 __package__ = "gameshub.official.scraper.reddit"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -70,9 +70,22 @@ def process_free_game_information(game_url, source_url):
         data = response_json[app_id]['data']
         if not data['is_free']:
             return
-        notify(__name__, GamePlatform.STEAM, data['name'], app_id,
-               "https://store.steampowered.com/app/" + app_id, GameFreeType.KEEP_FOREVER,
-               None, None, source_url, "!addlicense asf " + app_id)
+        sub_id = ''
+        if 'package_groups' in data and data['package_groups'] is not None:
+            for package_group in data['package_groups']:
+                if 'subs' in package_group and package_group['subs'] is not None:
+                    for sub in package_group['subs']:
+                        if sub['is_free_license']:
+                            sub_id = str(sub['packageid'])
+                            break
+        if sub_id == '':
+            notify(__name__, GamePlatform.STEAM, data['name'], app_id,
+                   "https://store.steampowered.com/app/" + app_id, GameFreeType.KEEP_FOREVER,
+                   None, None, source_url, "!addlicense asf " + app_id)
+        else:
+            notify(__name__, GamePlatform.STEAM, data['name'], sub_id,
+                   "https://store.steampowered.com/app/" + app_id, GameFreeType.KEEP_FOREVER,
+                   None, None, source_url, "!addlicense asf " + sub_id)
         save_game_records_to_db([GameRecord(game_id=app_id, source_url=source_url)])
 
 
