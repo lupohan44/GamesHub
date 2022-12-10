@@ -16,7 +16,7 @@ from version import *
 
 class UpdateChecking:
     def __init__(self):
-        self.check_update_when = "startup"
+        self.enable = True
 
 
 class LogSetting:
@@ -42,8 +42,6 @@ def parse_config() -> Dict:
     if "update" in config_json:
         if "check_update" in config_json["update"]:
             config.update_checking.enable = config_json["update"]["check_update"]
-        if "check_update_when" in config_json["update"]:
-            config.update_checking.check_update_when = config_json["update"]["check_update_when"]
     enabled_plugins = {}
     if "plugins" in config_json:
         for plugin_name in config_json["plugins"]:
@@ -57,18 +55,16 @@ def check_update():
     logger.info("Checking for update...")
     local_version = VERSION
     try:
-        github_version = {"VERSION": ""}
-        req = None
+        response = None
         try:
-            req = request.Request(GITHUB_VERSION_URL)
+            response = request.urlopen(GITHUB_VERSION_URL, timeout=5)
         except Exception:
             # try to use mirror
-            req = request.Request(GITHUB_MIRROR_VERSION_URL)
-        response = request.urlopen(req)
+            response = request.urlopen(GITHUB_MIRROR_VERSION_URL, timeout=5)
         github_version_py = response.read().decode('utf-8')
-        exec(github_version_py, github_version)
-        if version.parse(local_version) < version.parse(github_version["VERSION"]):
-            logger.warning(FOUND_NEW_VERSION_MSG % github_version["VERSION"])
+        github_version = github_version_py.split("=")[1].strip().replace('"', '')
+        if version.parse(local_version) < version.parse(github_version):
+            logger.warning(FOUND_NEW_VERSION_MSG % github_version)
             logger.warning(GITHUB_URL)
         else:
             logger.info(NO_NEW_VERSION_MSG)
@@ -106,7 +102,7 @@ def main(argv):
     logger.info(center_format_text("Version: %s" % VERSION))
     logger.info(center_format_text())
     enabled_plugins = parse_config()
-    if config.update_checking.enable and config.update_checking.check_update_when == "startup":
+    if config.update_checking.enable:
         check_update()
     if len(enabled_plugins) == 0:
         raise Exception(NO_PLUGINS_ENABLE_ERROR_MSG)

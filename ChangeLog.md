@@ -1,4 +1,8 @@
 # Changelog
+## 2.0.2
+1. Remove unused code in config
+2. Change update checking method, prevent remote code injection
+
 ## 2.0.1
 ### 2022/11/3
 1. Remove version in [requirements.txt](requirements.txt)
