@@ -13,7 +13,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "Keylol Scraper"
 __package__ = "gameshub.official.scraper.keylol"
-__version__ = "1.0.1"
+__version__ = "1.0.3"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -257,11 +257,11 @@ def process_keylol_steam_free_game_information(source_url, soup):
     if final_app_info['sub_id'] != '':
         notify(__name__, GamePlatform.STEAM, final_app_info['name'], final_app_info['sub_id'],
                "https://store.steampowered.com/app/" + final_app_info['app_id'], GameFreeType.KEEP_FOREVER,
-               None, None, source_url, "!addlicense asf " + final_app_info['sub_id'])
+               None, None, source_url, "!addlicense asf s/" + final_app_info['sub_id'])
     else:
         notify(__name__, GamePlatform.STEAM, final_app_info['name'], final_app_info['app_id'],
                "https://store.steampowered.com/app/" + final_app_info['app_id'], GameFreeType.KEEP_FOREVER,
-               None, None, source_url, "!addlicense asf " + final_app_info['app_id'])
+               None, None, source_url, "!addlicense asf a/" + final_app_info['app_id'])
     save_game_records_to_db([GameRecord(game_id=final_app_info['app_id'], source_url=source_url)])
 
 

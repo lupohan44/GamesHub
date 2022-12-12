@@ -13,7 +13,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "Reddit Scraper"
 __package__ = "gameshub.official.scraper.reddit"
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -81,11 +81,11 @@ def process_free_game_information(game_url, source_url):
         if sub_id == '':
             notify(__name__, GamePlatform.STEAM, data['name'], app_id,
                    "https://store.steampowered.com/app/" + app_id, GameFreeType.KEEP_FOREVER,
-                   None, None, source_url, "!addlicense asf " + app_id)
+                   None, None, source_url, "!addlicense asf a/" + app_id)
         else:
             notify(__name__, GamePlatform.STEAM, data['name'], sub_id,
                    "https://store.steampowered.com/app/" + app_id, GameFreeType.KEEP_FOREVER,
-                   None, None, source_url, "!addlicense asf " + sub_id)
+                   None, None, source_url, "!addlicense asf s/" + sub_id)
         save_game_records_to_db([GameRecord(game_id=app_id, source_url=source_url)])
 
 

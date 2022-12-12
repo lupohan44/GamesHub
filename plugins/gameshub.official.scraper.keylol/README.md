@@ -18,6 +18,9 @@ cookies is required, plugin will rate for the post to say "thank you" to the pos
 ![cookies.png](../../static_files/cookies.png)
 
 ## Changelog
+v1.0.3
+- Redeem using appid should add 'a/' prefix, using subid should add 's/' prefix
+
 v1.0.2
 - Scraper will now return free sub_id in information and in extra_information, return app_id in url
 
