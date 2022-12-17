@@ -12,7 +12,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "ASF Redeem"
 __package__ = "gameshub.official.redeem.asf"
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -134,11 +134,14 @@ def redeem_games():
         if games is None:
             return
         games_id = []
+        games_id_raw = []
         for game in games:
+            games_id_raw.append(game.sub_id)
             try:
-                response = requests.get('https://store.steampowered.com/api/appdetails?appids=' + game)
+                response = requests.get('https://store.steampowered.com/api/appdetails?appids=' + game.sub_id)
                 response_json = response.json()
-                if game in response_json and 'success' in response_json[game] and response_json[game]['success']:
+                if game.sub_id in response_json and 'success' in response_json[game.sub_id] and \
+                        response_json[game.sub_id]['success']:
                     games_id.append('a/' + game.sub_id)
                 else:
                     games_id.append('s/' + game.sub_id)
@@ -149,6 +152,6 @@ def redeem_games():
         cmd = config.redeem_command.format(game_ids=",".join(games_id))
         asyncio.run(command(cmd))
         logger.info(REDEEM_GAME_SUCCESS_MSG % cmd)
-        delete_game_record_from_db(games_id)
+        delete_game_record_from_db(games_id_raw)
     except Exception as e:
         logger.error(e)

@@ -7,6 +7,9 @@ This is plugin to redeem steam free games using [ASF](https://github.com/JustArc
 - [ASF](https://github.com/JustArchiNET/ArchiSteamFarm)
 
 ## Changelog
+v1.0.4
+- Fix plugin broken since last commit
+
 v1.0.3
 - Redeem using appid should add 'a/' prefix, using subid should add 's/' prefix
 
