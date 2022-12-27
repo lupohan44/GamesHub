@@ -20,6 +20,9 @@
     },
     "gameshub.official.redeem.steamclient": { // Steamclient redeem plugin (https://github.com/ValvePython/steam)
       "enable": true
+    },
+    "gameshub.official.scraper.epic": { // Epic Games scraper plugin (https://github.com/SD4RK/epicstore_api)
+      "enable": true
     }
   }
 }

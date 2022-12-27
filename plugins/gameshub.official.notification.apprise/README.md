@@ -6,6 +6,9 @@ This is plugin to send free games information using [Apprise](https://github.com
 ## [Requirements](requirements.txt)
 
 ## Changelog
+v1.0.2
+- Fix extra_info will show "None" when extra_info field is None
+
 v1.0.1
 - Add version
 - Send "N/A" when start time or end time is not available

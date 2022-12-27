@@ -12,7 +12,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "Apprise Notifier"
 __package__ = "gameshub.official.notification.apprise"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -99,6 +99,9 @@ for notification in config.notifications:
             source_url: str,
             extra_info: str = None
     ):
+        if extra_info is None:
+            extra_info = ""
+
         def format_str(s: str):
             start_time_str = 'N/A'
             if start_time is not None:
