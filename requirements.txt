@@ -10,3 +10,4 @@ schedule
 steam[client]
 requests
 praw
+epicstore_api
