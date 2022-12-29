@@ -10,7 +10,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "EpicGamesStore Scraper"
 __package__ = "gameshub.official.scraper.epic"
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -87,7 +87,7 @@ def scraper():
         for free_game in free_games:
             if free_game['productSlug'] != '[]':
                 games_free_type = GameFreeType.KEEP_FOREVER
-                if not free_game.get('expiryDate'):
+                if free_game.get('expiryDate') is not None:
                     games_free_type = GameFreeType.LIMITED_TIME
                 game_id = free_game['id'] + '@' + free_game['namespace']
                 start_time = datetime.datetime.strptime(free_game.get('promotions').get('promotionalOffers')[0].
