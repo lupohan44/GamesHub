@@ -10,7 +10,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "EpicGamesStore Scraper"
 __package__ = "gameshub.official.scraper.epic"
-__version__ = "1.0.1"
+__version__ = "1.0.2"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -99,9 +99,12 @@ def scraper():
 
                 if get_game_record_from_db(game_id, start_time, end_time) is not None:
                     continue
+                if free_game['productSlug'] is not None:
+                    game_url = "https://store.epicgames.com/p/" + free_game['productSlug']
+                else:
+                    game_url = "https://store.epicgames.com/p/" + free_game.get('offerMappings')[0].get('pageSlug')
                 notify(__name__, GamePlatform.EPIC, free_game['title'], free_game['id'] + '@' + free_game['namespace'],
-                       "https://store.epicgames.com/p/" + free_game['productSlug'], games_free_type,
-                       start_time, end_time, "https://store.epicgames.com/p/" + free_game['productSlug'], None)
+                       game_url, games_free_type, start_time, end_time, game_url, None)
                 new_free_games_count += 1
                 save_game_records_to_db([GameRecord(game_id=game_id, begin_time=start_time, end_time=end_time)])
         logger.info("Got %d new free games from epic games store" % new_free_games_count)

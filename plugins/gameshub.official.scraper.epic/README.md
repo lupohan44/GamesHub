@@ -6,6 +6,9 @@ This is a plugin to scrap free games information from [EpicGames](https://store.
 ## [Requirements](requirements.txt)
 
 ## Changelog
+v1.0.2
+- Fix plugin error when productSlug is None
+
 v1.0.1
 - Fix free_type will be LIMITED_TIME even when the game is free forever
 
