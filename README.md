@@ -74,7 +74,7 @@ Provide a framework to develop plugins to scrap games from different websites an
    ```
 3. Run with docker
    ```shell
-   docker pull lupohan44/games_hub:latest && docker run -v $GAMES_HUB_FOLDER_NAME:/home/wd --rm lupohan44/games_hub:latest
+   docker pull lupohan44/games_hub:latest && docker run -v $GAMES_HUB_FOLDER_NAME:/config --rm lupohan44/games_hub:latest
    ```
    All changes by script inside docker will be permanently save to this folder.  
    Each enabled official plugin should create a folder in ```{WORKING_DIR}/plugins/{PLUGIN_PACKAGE_NAME}``` to store runtime files and configs
