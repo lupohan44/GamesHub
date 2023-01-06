@@ -5,4 +5,4 @@ services:
     build: .
     restart: on-failure
     volumes:
-      - ./gameshub-conf/:/work
+      - ./gameshub-conf/:/config
