@@ -7,7 +7,7 @@ RUN apt-get update \
 
 WORKDIR /tmp/python_requirements
 
-COPY ./requirements-no_plugin.txt .
+COPY ./requirements.txt .
 COPY plugins plugins
 
 RUN find . -name 'requirements*.txt' -exec bash -c "pip3 install --user --no-cache-dir -r {}" \; \
