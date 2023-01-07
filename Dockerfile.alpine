@@ -18,6 +18,8 @@ ENV GAMESHUB_CONF_DIR_CWD=true
 COPY --from=build-deps /root/.local /root/.local
 COPY . /src
 
+RUN rm -rf /src/plugins/gameshub.official.scraper.steamdb
+
 WORKDIR /config
 
 ENTRYPOINT ["python", "/src/app.py"]
