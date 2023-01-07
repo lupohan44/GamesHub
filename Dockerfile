@@ -10,7 +10,8 @@ WORKDIR /tmp/python_requirements
 COPY ./requirements-no_plugin.txt .
 COPY plugins plugins
 
-RUN find . -name 'requirements*.txt' -exec bash -c "pip3 install --user --no-cache-dir -r {}" \;
+RUN find . -name 'requirements*.txt' -exec bash -c "pip3 install --user --no-cache-dir -r {}" \; \
+    && python3 -m playwright install webkit firefox chromium
 
 FROM mcr.microsoft.com/playwright/python:focal
 
