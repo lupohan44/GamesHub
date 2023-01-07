@@ -11,8 +11,8 @@ from games_hub.utils import *
 __name__ = "SteamClient Redeem"
 __package__ = "gameshub.official.redeem.steamclient"
 __version__ = "1.0.0"
-config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
-config_folder = os.path.join('plugins', __package__)
+config_example_path = os.path.join(GAMESHUB_SRC_DIR, os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
+config_folder = os.path.join(GAMESHUB_CONFIG_DIR, 'plugins', __package__)
 if not os.path.exists(config_folder):
     os.makedirs(config_folder, exist_ok=True)
 record_path = os.path.join(config_folder, "record.db")

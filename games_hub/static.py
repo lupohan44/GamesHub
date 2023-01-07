@@ -13,7 +13,7 @@ GAMESHUB_CONF_DIR_CWD = os.environ.get("GAMESHUB_CONF_DIR_CWD", False) == "true"
 GAMESHUB_SRC_DIR = Path(__file__).parent.parent
 GAMESHUB_CONFIG_DIR = os.getcwd() if GAMESHUB_CONF_DIR_CWD else GAMESHUB_SRC_DIR
 
-GAMESHUB_CONFIG_PATH = os.path.join(GAMESHUB_CONFIG_DIR, "config.json5")
+GAMESHUB_CONFIG_FILE = os.path.join(GAMESHUB_CONFIG_DIR, "config.json5")
 # log format
 LOG_FORMAT = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 LOG_FORMAT_WITHOUT_LEVEL_NAME = logging.Formatter('%(asctime)s - %(name)s - %(message)s')

@@ -34,11 +34,11 @@ config = Config()
 
 
 def parse_config() -> Dict:
-    logger.info(PARSING_CONFIG_MSG % CONFIG_PATH)
-    if not os.path.exists(CONFIG_PATH):
+    logger.info(PARSING_CONFIG_MSG % GAMESHUB_CONFIG_FILE)
+    if not os.path.exists(GAMESHUB_CONFIG_FILE):
         raise Exception(CONFIG_NOT_EXIST_ERROR_MSG)
 
-    config_json = load_json(CONFIG_PATH)
+    config_json = load_json(GAMESHUB_CONFIG_FILE)
     if "update" in config_json:
         if "check_update" in config_json["update"]:
             config.update_checking.enable = config_json["update"]["check_update"]
