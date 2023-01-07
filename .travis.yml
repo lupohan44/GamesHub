@@ -15,10 +15,13 @@ script:
   - export APP_VERSION=$(python3 -c "from version import *; print(VERSION)")
   - docker buildx create --use
   - docker buildx build --platform=linux/amd64,linux/arm64 -t lupohan44/games_hub:latest -t lupohan44/games_hub:v${APP_VERSION} .
+  - docker buildx build -f Dockerfile.alpine --platform=linux/amd64,linux/arm64 -t lupohan44/games_hub:alpine -t lupohan44/games_hub:alpine-v${APP_VERSION} .
 
 after_success:
   - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then
     docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
     docker push lupohan44/games_hub:latest;
     docker push lupohan44/games_hub:v${APP_VERSION};
+    docker push lupohan44/games_hub:alpine;
+    docker push lupohan44/games_hub:alpine-v${APP_VERSION};
     fi

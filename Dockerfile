@@ -7,20 +7,17 @@ RUN apt-get update \
 
 WORKDIR /tmp/python_requirements
 
-COPY ./requirements.txt .
+COPY ./requirements-no_plugin.txt .
 COPY plugins plugins
 
-RUN find . -name 'requirements.txt' -exec bash -c "pip3 install --user --no-cache-dir -r {}" \; \
-    && python3 -m playwright install webkit firefox chromium
+RUN find . -name 'requirements*.txt' -exec bash -c "pip3 install --user --no-cache-dir -r {}" \;
 
 FROM mcr.microsoft.com/playwright/python:focal
 
+ENV GAMESHUB_CONF_DIR_CWD=true
+
 COPY --from=build-deps /root/.local /root/.local
-
-
-ENV GAMESHUB_SRC_DIR=/src
-WORKDIR /src
-COPY . .
+COPY . /src
 
 WORKDIR /config
 

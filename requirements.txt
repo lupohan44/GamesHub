@@ -1,4 +1,3 @@
-playwright
 beautifulsoup4
 lxml>=4.9.1
 asf-ipc

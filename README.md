@@ -81,6 +81,11 @@ Provide a framework to develop plugins to scrap games from different websites an
 4. Change plugins' config files from step 3
 5. Rerun step 3
 
+#### Alpine Docker
+There is a smaller docker image using Alpine Linux, but it does not support the `steamdb` plugin. If you opt to use this image, you must disable the `steamdb` plugin in the config file, then you can use the `alpine` tag.
+
+`lupohan44/games_hub:alpine`
+
 ## Plugins structure example
    ```
    /var/GamesHub (working directory)
