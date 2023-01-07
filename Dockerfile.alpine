@@ -13,6 +13,8 @@ RUN rm -rf plugins/gameshub.official.scraper.steamdb \
 
 FROM python:3.10-alpine
 
+ENV GAMESHUB_CONF_DIR_CWD=true
+
 COPY --from=build-deps /root/.local /root/.local
 COPY . /src
 
