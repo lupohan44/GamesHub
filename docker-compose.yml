@@ -1,0 +1,8 @@
+version: '3'
+services:
+  gameshub:
+    image: lupohan44/games_hub:latest
+    build: .
+    restart: on-failure
+    volumes:
+      - ./gameshub-conf/:/config

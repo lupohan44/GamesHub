@@ -1,9 +1,26 @@
-FROM mcr.microsoft.com/playwright/python:v1.23.0-focal
+FROM mcr.microsoft.com/playwright/python:focal as build-deps
 
-# Reduce the size of the image
-RUN cd home && git clone https://github.com/lupohan44/GamesHub
-RUN cd /home/GamesHub && pip3 install -r requirements.txt
-# Need to re-install webkit after reduce the size of the image
-RUN python3 -m playwright install webkit firefox chromium
+RUN apt-get update \
+    && apt-get --no-install-recommends install -y python3-dev python3-pip build-essential \
+    && ln -s /usr/bin/pip3 /usr/bin/pip3.8 \
+    && rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT cd /home/wd && python3 /home/GamesHub/app.py
+WORKDIR /tmp/python_requirements
+
+COPY ./requirements.txt .
+COPY plugins plugins
+
+RUN find . -name 'requirements*.txt' -print | while IFS= read -r file; do pip3 install --user --no-cache-dir -r $file || exit 1; done \
+    && python3 -m playwright install webkit firefox chromium
+
+FROM mcr.microsoft.com/playwright/python:focal
+
+ENV GAMESHUB_CONF_DIR_CWD=true
+
+COPY --from=build-deps /root/.local /root/.local
+COPY . /src
+
+WORKDIR /config
+
+ENTRYPOINT ["python", "/src/app.py"]
+

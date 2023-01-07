@@ -74,12 +74,17 @@ Provide a framework to develop plugins to scrap games from different websites an
    ```
 3. Run with docker
    ```shell
-   docker pull lupohan44/games_hub:latest && docker run -v $GAMES_HUB_FOLDER_NAME:/home/wd --rm lupohan44/games_hub:latest
+   docker pull lupohan44/games_hub:latest && docker run -v $GAMES_HUB_FOLDER_NAME:/config --rm lupohan44/games_hub:latest
    ```
    All changes by script inside docker will be permanently save to this folder.  
    Each enabled official plugin should create a folder in ```{WORKING_DIR}/plugins/{PLUGIN_PACKAGE_NAME}``` to store runtime files and configs
 4. Change plugins' config files from step 3
 5. Rerun step 3
+
+#### Alpine Docker
+There is a smaller docker image using Alpine Linux, but it does not support the `steamdb` plugin. If you opt to use this image, you must disable the `steamdb` plugin in the config file, then you can use the `alpine` tag.
+
+`lupohan44/games_hub:alpine`
 
 ## Plugins structure example
    ```

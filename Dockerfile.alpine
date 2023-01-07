@@ -1,0 +1,26 @@
+# Python 3.10 chosen specifically here due to a bug in 3.11 that breaks cchardet
+FROM python:3.10-alpine as build-deps
+
+RUN apk --no-cache add alpine-sdk python3-dev libffi-dev
+
+WORKDIR /tmp/python_requirements
+
+COPY ./requirements-no_plugin.txt .
+COPY plugins plugins
+
+RUN rm -rf plugins/gameshub.official.scraper.steamdb \
+    && find . -name 'requirements*.txt' -print0 | while read -d $'\0' file; do pip3 install --user --no-cache-dir -r $file || exit 1; done
+
+FROM python:3.10-alpine
+
+ENV GAMESHUB_CONF_DIR_CWD=true
+
+COPY --from=build-deps /root/.local /root/.local
+COPY . /src
+
+RUN rm -rf /src/plugins/gameshub.official.scraper.steamdb
+
+WORKDIR /config
+
+ENTRYPOINT ["python", "/src/app.py"]
+

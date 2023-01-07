@@ -1,0 +1,9 @@
+Dockerfile*
+.git
+**/__pycache__/
+/**/config.json5
+/**/log.txt
+/.idea/
+/**/*.iml
+/**/record.db
+/logs

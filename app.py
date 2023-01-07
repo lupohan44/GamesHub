@@ -34,11 +34,11 @@ config = Config()
 
 
 def parse_config() -> Dict:
-    logger.info(PARSING_CONFIG_MSG % CONFIG_PATH)
-    if not os.path.exists(CONFIG_PATH):
+    logger.info(PARSING_CONFIG_MSG % GAMESHUB_CONFIG_FILE)
+    if not os.path.exists(GAMESHUB_CONFIG_FILE):
         raise Exception(CONFIG_NOT_EXIST_ERROR_MSG)
 
-    config_json = load_json(CONFIG_PATH)
+    config_json = load_json(GAMESHUB_CONFIG_FILE)
     if "update" in config_json:
         if "check_update" in config_json["update"]:
             config.update_checking.enable = config_json["update"]["check_update"]
@@ -106,19 +106,19 @@ def main(argv):
         check_update()
     if len(enabled_plugins) == 0:
         raise Exception(NO_PLUGINS_ENABLE_ERROR_MSG)
-    if not os.path.exists('plugins'):
+    if not os.path.exists(os.path.join(GAMESHUB_SRC_DIR, 'plugins')):
         raise Exception(NO_PLUGINS_FOLDER_ERROR_MSG)
     # try to enable plugins
     folders_under_plugins = []
-    for dirs in os.listdir("plugins"):
-        if os.path.isdir(os.path.join("plugins", dirs)):
+    for dirs in os.listdir(os.path.join(GAMESHUB_SRC_DIR, "plugins")):
+        if os.path.isdir(os.path.join(GAMESHUB_SRC_DIR, "plugins", dirs)):
             folders_under_plugins.append(dirs)
     if len(folders_under_plugins) == 0:
         raise Exception(PLUGINS_FOLDER_EMPTY_ERROR_MSG)
     enabled_plugins_folders = []
     for plugin_name in enabled_plugins:
         if plugin_name in folders_under_plugins:
-            enabled_plugins_folders.append(os.path.join("plugins", plugin_name))
+            enabled_plugins_folders.append(os.path.join(GAMESHUB_SRC_DIR, "plugins", plugin_name))
     if len(enabled_plugins_folders) == 0:
         raise Exception(NO_PLUGINS_ENABLE_ERROR_MSG)
     total_plugin_count = 0
