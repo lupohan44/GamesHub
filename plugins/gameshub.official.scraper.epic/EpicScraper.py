@@ -10,7 +10,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "EpicGamesStore Scraper"
 __package__ = "gameshub.official.scraper.epic"
-__version__ = "1.0.2"
+__version__ = "1.0.3"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -90,14 +90,24 @@ def scraper():
                 if free_game.get('expiryDate') is not None:
                     games_free_type = GameFreeType.LIMITED_TIME
                 game_id = free_game['id'] + '@' + free_game['namespace']
-                start_time = datetime.datetime.strptime(free_game.get('promotions').get('promotionalOffers')[0].
-                                                        get('promotionalOffers')[0].get('startDate'),
-                                                        '%Y-%m-%dT%H:%M:%S.%fZ')
-                end_time = datetime.datetime.strptime(free_game.get('promotions').get('promotionalOffers')[0].
-                                                      get('promotionalOffers')[0].get('endDate'),
-                                                      '%Y-%m-%dT%H:%M:%S.%fZ')
-
-                if get_game_record_from_db(game_id, start_time, end_time) is not None:
+                if free_game.get('promotions') is not None:
+                    promotions = free_game.get('promotions').get('promotionalOffers')
+                    if promotions is None or len(promotions) == 0:
+                        promotions = free_game.get('promotions').get('upcomingPromotionalOffers')
+                    start_time = datetime.datetime.strptime(promotions[0].
+                                                            get('promotionalOffers')[0].get('startDate'),
+                                                            '%Y-%m-%dT%H:%M:%S.%fZ')
+                    start_time_for_db = start_time
+                    end_time = datetime.datetime.strptime(promotions[0].
+                                                          get('promotionalOffers')[0].get('endDate'),
+                                                          '%Y-%m-%dT%H:%M:%S.%fZ')
+                    end_time_for_db = end_time
+                else:
+                    start_time = None
+                    start_time_for_db = datetime.datetime.strptime('1970-01-01T00:00:00.000Z', '%Y-%m-%dT%H:%M:%S.%fZ')
+                    end_time = None
+                    end_time_for_db = datetime.datetime.strptime('1970-01-01T00:00:00.000Z', '%Y-%m-%dT%H:%M:%S.%fZ')
+                if get_game_record_from_db(game_id, start_time_for_db, end_time_for_db) is not None:
                     continue
                 if free_game['productSlug'] is not None:
                     game_url = "https://store.epicgames.com/p/" + free_game['productSlug']
@@ -106,7 +116,7 @@ def scraper():
                 notify(__name__, GamePlatform.EPIC, free_game['title'], free_game['id'] + '@' + free_game['namespace'],
                        game_url, games_free_type, start_time, end_time, game_url, None)
                 new_free_games_count += 1
-                save_game_records_to_db([GameRecord(game_id=game_id, begin_time=start_time, end_time=end_time)])
+                save_game_records_to_db([GameRecord(game_id=game_id, begin_time=start_time_for_db, end_time=end_time_for_db)])
         logger.info("Got %d new free games from epic games store" % new_free_games_count)
     except Exception as e:
         logger.error(e)
