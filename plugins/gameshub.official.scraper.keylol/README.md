@@ -3,7 +3,7 @@
 ## Description
 This is plugin to scrap free games information from [Keylol](https://keylol.com/t572814-1-1)  
 currently only support steam free games  
-cookies is required, plugin will rate for the post to say "thank you" to the post author
+cookies is not required but strongly recommended, plugin will rate for the post to say "thank you" to the post author.
 ![rate.png](../../static_files/rate.png)
 ## [Requirements](requirements.txt)
 
@@ -18,6 +18,9 @@ cookies is required, plugin will rate for the post to say "thank you" to the pos
 ![cookies.png](../../static_files/cookies.png)
 
 ## Changelog
+v1.0.4
+- cookies is not required anymore
+
 v1.0.3
 - Redeem using appid should add 'a/' prefix, using subid should add 's/' prefix
 

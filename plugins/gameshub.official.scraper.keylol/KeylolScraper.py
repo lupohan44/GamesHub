@@ -13,7 +13,7 @@ from games_hub.utils import *
 """static variables"""
 __name__ = "Keylol Scraper"
 __package__ = "gameshub.official.scraper.keylol"
-__version__ = "1.0.3"
+__version__ = "1.0.4"
 config_example_path = os.path.join(os.path.split(os.path.realpath(__file__))[0], "config.example.json5")
 config_folder = os.path.join('plugins', __package__)
 if not os.path.exists(config_folder):
@@ -75,11 +75,16 @@ class Config:
         self.loop_delay = 3000
 
 
-def get_url(url):
-    cookies = ''
-    headers = {}
+def get_cookies():
     with open(cookies_file_path, 'r') as f_cookies:
         cookies = f_cookies.read()
+    if cookies != '':
+        return cookies
+
+
+def get_url(url):
+    headers = {}
+    cookies = get_cookies()
     if cookies != '':
         headers['Cookie'] = cookies.replace('\n', '')
     req = request.Request(url, headers=headers)
@@ -167,6 +172,8 @@ def process_keylol_amazon_free_game_information(source_url, soup):
 
 
 def say_thank_you(keylol_url):
+    if not verify_cookies():
+        return
     try:
         headers = {}
         with open(cookies_file_path, 'r') as f_cookies:
@@ -307,5 +314,6 @@ def scraper():
         soup = get_url(url=KEYLOL_FREE_GAMES_HUB_URL)
         logger.info("Processing keylol page...")
         process_keylol_result(soup)
+        logger.info("Processing keylol page finished")
     except Exception as e:
         logger.error(e)
