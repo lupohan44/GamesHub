@@ -1,8 +1,10 @@
 # GamesHub
 
-![GamesHubLogo](static_files/logo.png)
+![GamesHub](https://socialify.git.ci/lupohan44/GamesHub/image?description=1&descriptionEditable=Provide%20a%20framework%20to%20develop%20plugins%20to%20scrap%20games%20from%20different%20websites%20and%20send%20notifications%20to%20other%20plugins&forks=1&issues=1&language=1&logo=https%3A%2F%2Fgithub.com%2Flupohan44%2FGamesHub%2Fraw%2Fmain%2Fstatic_files%2Flogo.png&name=1&owner=1&pattern=Plus&pulls=1&stargazers=1&theme=Light)
 
 [![project](https://img.shields.io/badge/lupohan44-GamesHub-brightgreen)](https://github.com/lupohan44/GamesHub) [![GitHub license](https://img.shields.io/github/license/lupohan44/GamesHub)](https://github.com/lupohan44/GamesHub/blob/main/LICENSE) [![GitHub stars](https://img.shields.io/github/stars/lupohan44/GamesHub)](https://github.com/lupohan44/GamesHub/stargazers) [![docker](https://img.shields.io/badge/Docker-lupohan44%2Fgames_hub-blue?logo=docker)](https://hub.docker.com/r/lupohan44/games_hub) [![Build Status](https://api.travis-ci.com/lupohan44/GamesHub.svg)](https://travis-ci.com/github/lupohan44/GamesHub)
+
+[README](README.md) | [中文文档](README_zhCN.md)
 
 This project is inspired by [SteamDB-FreeGames](https://github.com/azhuge233/SteamDB-FreeGames)
 
