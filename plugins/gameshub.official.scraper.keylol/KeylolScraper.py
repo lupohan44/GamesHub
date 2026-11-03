@@ -228,7 +228,7 @@ def process_keylol_steam_free_game_information(source_url, soup):
     # if the game type is dlc, sometimes thread author will provide game url as well
     final_app_info = {}
     for app_id in app_ids:
-        response = requests.get('https://store.steampowered.com/api/appdetails?appids=' + app_id)
+        response = requests.get('https://store.steampowered.com/api/appdetails?appids=' + app_id, timeout=30)
         response_json = response.json()
         if app_id in response_json and 'success' in response_json[app_id] and response_json[app_id]['success']:
             data = response_json[app_id]['data']

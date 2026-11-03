@@ -138,7 +138,7 @@ def redeem_games():
         for game in games:
             games_id_raw.append(game.sub_id)
             try:
-                response = requests.get('https://store.steampowered.com/api/appdetails?appids=' + game.sub_id)
+                response = requests.get('https://store.steampowered.com/api/appdetails?appids=' + game.sub_id, timeout=30)
                 response_json = response.json()
                 if game.sub_id in response_json and 'success' in response_json[game.sub_id] and \
                         response_json[game.sub_id]['success']:
